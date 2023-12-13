@@ -10,64 +10,44 @@ const signupHandler = () => {
 
     const users = JSON.parse(localStorage.getItem('users')) || []
     
-    if (!userName.value || !email.value || !password.value || !cPassword) {
+    if (!userName.value || !email.value || !password.value || !cPassword.value) {
         Swal.fire({
             icon: "error",
-            title: "required...",
-            text: "please fill all fields carefully!",            
-          });
-          return;
+            title: "Required...",
+            text: "Please fill all fields carefully!",
+        });
+        return;
     } else {
-        if(password.value.length < 8 ){
+        if (password.value.length < 8) {
             Swal.fire({
                 icon: "error",
-                title: "password...",
-                text: "Password error!",            
-              });
-              return;        
-    } else {
-        if(password.value != cPassword.value) {
-        Swal.fire({
-            icon: "error",
-            title: "password...",
-            text: "Password error!",            
-          });
-          return;        
+                title: "Password...",
+                text: "Password should be at least 8 characters long!",
+            });
+            return;
+        } else {
+            if (password.value !== cPassword.value) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Password...",
+                    text: "Passwords do not match!",
+                });
+                return;
+            }
         }
     }
-
-    const userNameFound = users.find((user)=> {
-        if(user.userName === userName.value){
-            Swal.fire({
-                icon: "error",
-                title: "password...",
-                text: "Password error!",            
-              });
-              return user;   
-        }
-    });
-
-    if(userNameFound){
-        Swal.fire({
-            icon: "user",
-            title: "name already taken...",
-            text: "choose another!",            
-          });
-          return;
-    }
-
-    const userEmailFound = users.find((user) => {
-        if(user.email === email.value) return user
-    })
     
-    if(userEmailFound) {
+    const userNameFound = users.find((user) => {
+        return user.userName === userName.value;
+    });
+    
+    if (userNameFound) {
         Swal.fire({
-            icon: "user email",
-            title: "user email already taken...",
-            text: "choose another!",            
-          });
-          return;
-
+            icon: "error",
+            title: "Username...",
+            text: "Username already taken. Choose another!",
+        });
+        return;
     }
 
     const user = {
