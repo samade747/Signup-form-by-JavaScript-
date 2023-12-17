@@ -8,3 +8,5 @@ const submitBtn = document.querySelector('#submitBtn')
 let imageUrl;
 let oldPost;
 let oldPostIndex;
+
+const postsLocalStorage = JSON.parse(localStorage.getItem('posts')) || []
