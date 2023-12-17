@@ -43,12 +43,33 @@ const loginUp = () => {
     });
 
 
-    if (!foundUser) return alert('No user found')
+    if (!foundUser) {
+        Swal.fire({
+            icon: "error",
+            title: "No User Found...",
+            text: "user not found!",
+        });
+        return;
+    }
+    
+      
+    if (foundUser.password !== password.value) {
+        Swal.fire({
+            icon: "error",
+            title: "Invalid Credentials...",
+            text: "Invalid Credentials!",
+        });
+        return;
+    } else {
+        Swal.fire({
+            icon: "sucess",
+            title: "Login Successfully, diverting you to the home page...",
+            text: "Login Successfully, diverting you to the home page!",
+        });
+        
 
-    if (foundUser.password !== password.value) return alert("Invalid Credentials")
-
-    alert("Login Successfully, diverting you to the home page")
-
+    }
+    
     localStorage.setItem('loggedInUser', JSON.stringify(foundUser))
 
     setTimeout(() => {
