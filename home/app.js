@@ -1,5 +1,5 @@
 const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-if(!loggedInUser) window.location.href = '../login/index.html'
+// if(!loggedInUser) window.location.href = '../login/index.html'
 
 const postInput = document.querySelector('#postContent');
 const postContentArea = document.querySelector('#postContent');
@@ -10,3 +10,15 @@ let oldPost;
 let oldPostIndex;
 
 const postsLocalStorage = JSON.parse(localStorage.getItem('posts')) || []
+console.log(postsLocalStorage)
+
+
+const postDisplayHandler = () => {
+    postContentArea.innerHTML = ""
+
+    
+
+
+
+
+}
