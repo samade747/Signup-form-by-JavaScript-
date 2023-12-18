@@ -67,7 +67,7 @@
                         
                       </button>
                       <ul class="dropdown-menu dropdown-menu-end d-flex justify-content-center align-items-center">
-                        <li><button class="dropdown-item" type="button" onclick="logOut()">logout</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="logoutHandler()">logout</button></li>
                         <!-- <li><button class="dropdown-item" type="button" disabled>Another action</button></li>
                         <li><button class="dropdown-item" type="button" disabled>Something else here</button></li> -->
                       </ul>
@@ -109,10 +109,10 @@
           </div>
             <div class="row ">
             <button onclick="" class="col  bi bi-camera-video-fill btn btn-outline-danger m-2" style="width: 12rem;">  live video</button>
-            <button onclick="" class="col  bi bi-images btn btn-outline-danger m-2" style="width: 12rem;">  Photo / Video</button>
+            <button onclick="imageOpenerHandler()" class="col  bi bi-images btn btn-outline-danger m-2" style="width: 12rem;" >  Photo / Video</button>
             <button onclick="" class="col  bi bi-emoji-laughing btn btn-outline-danger m-2" style="width: 12rem;">  Photo / Video</button>
           </div>
-          <button class="mb-5 btn btn-outline-primary" id="submitBtn" onclick="addPost()">Post Now </button>
+          <button class="mb-5 btn btn-outline-primary" id="submitBtn" onclick="postSubmitHandler()">Post Now </button>
           </div>
 
           <!-- posting content & box images  -->
