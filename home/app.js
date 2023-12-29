@@ -9,55 +9,47 @@ let imageUrl;
 let oldPost;
 let oldPostIndex;
 
-const postsLocalStorage = JSON.parse(localStorage.getItem('posts')) || []
+const postsLocalStorage = JSON.parse(localStorage.getItem('posts')) || [];
 console.log(postsLocalStorage)
 
-
 // const postDisplayHandler = () => {
-//     postContentArea.innerHTML = ""
-    
-//     const postsLocalStorage = JSON.parse(localStorage.getItem('posts')) || []
-    
+//     postContentArea.innerHTML = "";
+
+//     const postsLocalStorage = JSON.parse(localStorage.getItem('posts')) || [];
+
 //     postsLocalStorage.reverse().forEach(post => {
-//         let textHTML; 
-//         if(post?.imgData){
-//             textHTML = `
+//         let textHTML;
+
+//         const userEmail = loggedInUser?.email;
+
+//         textHTML = `
 //             <div class="card text-center">
-//             <div class="card-header" id="userName">
-//                    ${loggedInUser.email === post?.userDetail.email ? `<button onclick="editHandler(${post?.id})">Edit</button> ${post?.userDetail.userName} <button onclick="deleteHandler(${post?.id})">Delete</button>` : `${post?.userDetail.userName}`} 
-//                 </div>
-//             <div class="card">
-//   <div class="card-body">
-//     <h5 class="card-title">Special Post</h5>
-//     <p class="card-text">${post?.textData}</p>
-//     <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-//   </div>
-//   <img src='${post?.imgData}' class="card-img-bottom" alt="...">
-// </div>
-// </div>
-//             `
-//         } else {
-//             textHTML = `
-//                 <div class="card text-center">
 //                 <div class="card-header" id="userName">
-//                    ${loggedInUser.email === post?.userDetail.email ? `<button onclick="editHandler(${post?.id})">Edit</button> ${post?.userDetail.userName} <button onclick="deleteHandler(${post?.id})">Delete</button>` : `${post?.userDetail.userName}`} 
+//                     <img id="ProfileImage" src="./images/profile.png" alt="" width="30px">
+//                     <p class="card-text" id="cardtext1"><small class="text-body-secondary">${Post.time}</small></p>               
+//                     <span id="UserName">${userEmail === post?.userDetail?.email
+//                         ? `<button onclick="editHandler(${post?.id})">Edit</button> ${post?.userDetail?.userName} <button onclick="deleteHandler(${post?.id})">Delete</button>`
+//                         : `${post?.userDetail?.userName}`}
+//                     </span>
+                    
 //                 </div>
-//                 <div class="card-body">
-//                     <h5 class="card-title">Special Post</h5>
-//                     <p class="card-text">${post?.textData}.</p>
-//                 </div>
-//                 <div class="card-footer text-body-secondary">
-//                     2 days ago
+//                 <div class="card">
+//                     ${post?.imgData
+//                         ? `
+//                         <div class="card mb-3">
+//                             <img src='${post?.imgData}' class="card-img-bottom" alt="..." id="cardimage">
+//                             <div class="card-body">
+//                                 <h5 class="card-title" id="cardtitle"></h5>
+//                                 <p class="card-text">${post?.textData}</p>
+//                             </div>`
+//                         `                                                    
 //                 </div>
 //             </div>
-//                 `
+//         `
 
-//         } 
-//         postContentArea.innerHTML += textHTML
-
+//         postContentArea.innerHTML += textHTML;
 //     });
-
-// }
+// };
 
 const postDisplayHandler = () => {
     postContentArea.innerHTML = "";
@@ -66,47 +58,87 @@ const postDisplayHandler = () => {
 
     postsLocalStorage.reverse().forEach(post => {
         let textHTML;
-        const userEmail = loggedInUser?.email; // Use optional chaining here
 
-        if (post?.imgData) {
-            textHTML = `
-                <div class="card text-center">
-                    <div class="card-header" id="userName">
-                        ${userEmail === post?.userDetail?.email
-                            ? `<button onclick="editHandler(${post?.id})">Edit</button> ${post?.userDetail?.userName} <button onclick="deleteHandler(${post?.id})">Delete</button>`
-                            : `${post?.userDetail?.userName}`}
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Special Post</h5>
-                            <p class="card-text">${post?.textData}</p>
-                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                        </div>
-                        <img src='${post?.imgData}' class="card-img-bottom" alt="...">
-                    </div>
+        const userEmail = loggedInUser?.email;
+
+        textHTML = `
+            <div class="card text-center">
+                <div class="card-header" id="userName">
+                    <img id="ProfileImage" src="./images/profile.png" alt="" width="30px">
+                    <p class="card-text" id="cardtext1"><small class="text-body-secondary">${post.time}</small></p>               
+                    <span id="UserName">${userEmail === post?.userDetail?.email
+                        ? `<button onclick="editHandler(${post?.id})">Edit</button> ${post?.userDetail?.userName} <button onclick="deleteHandler(${post?.id})">Delete</button>`
+                        : `${post?.userDetail?.userName}`}
+                    </span>
+                    
                 </div>
-            `;
-        } else {
-            textHTML = `
-                <div class="card text-center">
-                    <div class="card-header" id="userName">
-                        ${userEmail === post?.userDetail?.email
-                            ? `<button onclick="editHandler(${post?.id})">Edit</button> ${post?.userDetail?.userName} <button onclick="deleteHandler(${post?.id})">Delete</button>`
-                            : `${post?.userDetail?.userName}`}
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Special Post</h5>
-                        <p class="card-text">${post?.textData}.</p>
-                    </div>
-                    <div class="card-footer text-body-secondary">
-                        2 days ago
-                    </div>
+                <div class="card">
+                    ${post?.imgData
+                        ? `
+                        <div class="card mb-3">
+                            <img src='${post?.imgData}' class="card-img-bottom" alt="..." id="cardimage">
+                            <div class="card-body">
+                                <h5 class="card-title" id="cardtitle"></h5>
+                                <p class="card-text">${post?.textData}</p>
+                            </div>`
+                        `                                                    
                 </div>
-            `;
-        }
+            </div>
+        `;
+
         postContentArea.innerHTML += textHTML;
     });
 };
+
+
+// const postDisplayHandler = () => {
+//     postContentArea.innerHTML = "";
+
+//     const postsLocalStorage = JSON.parse(localStorage.getItem('posts')) || [];
+
+//     postsLocalStorage.reverse().forEach(post => {
+//         let textHTML;
+//         const userEmail = loggedInUser?.email; 
+//         if (post?.imgData) {
+//             textHTML = `
+//                 <div class="card text-center">
+//                     <div class="card-header" id="userName">
+//                         ${userEmail === post?.userDetail?.email
+//                             ? `<button onclick="editHandler(${post?.id})">Edit</button> ${post?.userDetail?.userName} <button onclick="deleteHandler(${post?.id})">Delete</button>`
+//                             : `${post?.userDetail?.userName}`}
+//                     </div>
+//                     <div class="card">
+//                         <div class="card-body">
+//                             <h5 class="card-title">Special Post</h5>
+//                             <p class="card-text">${post?.textData}</p>
+//                             <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+//                         </div>
+//                         <img src='${post?.imgData}' class="card-img-bottom" alt="...">
+//                     </div>
+//                 </div>
+//             `;
+//         }
+//          else {
+//             textHTML = `
+//                 <div class="card text-center">
+//                     <div class="card-header" id="userName">
+//                         ${userEmail === post?.userDetail?.email
+//                             ? `<button onclick="editHandler(${post?.id})">Edit</button> ${post?.userDetail?.userName} <button onclick="deleteHandler(${post?.id})">Delete</button>`
+//                             : `${post?.userDetail?.userName}`}
+//                     </div>
+//                     <div class="card-body">
+//                         <h5 class="card-title">Special Post</h5>
+//                         <p class="card-text">${post?.textData}.</p>
+//                     </div>
+//                     <div class="card-footer text-body-secondary">
+//                         2 days ago
+//                     </div>
+//                 </div>
+//             `;
+//         }
+//         postContentArea.innerHTML += textHTML;
+//     });
+// };
 
 postDisplayHandler();
 
@@ -118,37 +150,6 @@ const imageOpenerHandler = () => {
     imageUrl = prompt("add image link")
 }
 
-// const postSubmitHandler = () => {
-//     let postObj
-//     if (imageUrl) {
-        
-//         postObj = {
-//             id: Date.now(),
-//             textData: postInput.value,
-//             imgData: imageUrl,
-//             userDetail: JSON.parse(localStorage.getItem('loggedInUser'))
-//         }
-//     } else {
-//         postObj = {
-//             id: Date.now(),
-//             textData: postInput.value,
-//             userDetail: JSON.parse(localStorage.getItem('loggedInUser'))
-//         }
-//     }
-//     postsLocalStorage.push(postObj)
-
-//     localStorage.setItem('posts', JSON.stringify(postsLocalStorage))
-
-//     imageUrl = ""
-
-//     postInput.value = ""
-
-//     postDisplayHandler()
-
-
-
-    
-// }
 
 
 const postSubmitHandler = () => {
@@ -217,7 +218,7 @@ const deleteHandler = (postId) => {
 const updatePostHandler = () => {
     
     let postObj
-    c
+    
     if (imageUrl) {
        
         postObj = {
