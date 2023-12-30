@@ -1,7 +1,9 @@
 // importing data form utilites files for firebase
 import {
-  getAuth,
-  createUserWithEmailAndPassword
+
+  auth,
+  createUserWithEmailAndPassword,
+
  } from "firebase/auth";
 
 const userName = document.getElementById('userName');
