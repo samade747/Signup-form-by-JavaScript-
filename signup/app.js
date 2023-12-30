@@ -1,5 +1,8 @@
 // importing data form utilites files for firebase
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword
+ } from "firebase/auth";
 
 const userName = document.getElementById('userName');
 const email = document.getElementById('email')
@@ -10,6 +13,23 @@ const signupSubmitBtn = document.getElementById("signupSubmitBtn");
 // local storage
 // const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 // if(loggedInUser) window.location.href = '../profile/index.html'
+
+window.addEventListener('load', (event) =>{
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/auth.user
+    const uid = user.uid;
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+    });
+});
+
+
+
 
 
 
@@ -54,20 +74,35 @@ const signupHandler = () => {
         const user = userCredential.user;
         // ...
       try{
-        const 
+        const docRef = await setDoc(doc(db, 'users', user.uid), {
+            userName: userName.value,
+            email: email.value,
+            uid: user.uid,
+        }); 
 
-      }  
-
-
-
-
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-      });
-
+        alert("Signup Successfully, now you can login, diverting you to the login page")
+        setTimeout(() => {
+            window.location.href = '../login/index.html'
+        }, 2000)        
+    } catch(e){
+        console.error('Error adding document: ', e);
+    }      
     })
+    .catch((error) => {
+        atch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;           
+    });
+
+    signupSubmitBtn.addEventListener('click', signupHandler);
+
+    //   .catch((error) => {
+    //     const errorCode = error.code;
+    //     const errorMessage = error.message;
+    //     // ..
+    //   
+
+    // })
     // const userNameFound = users.find((user) => {
     //     return user.userName === userName.value;
     // });
@@ -93,17 +128,11 @@ const signupHandler = () => {
 
     // localStorage.setItem('users', JSON.stringify(users));
     
-    alert("Signup Successfully, now you can login, diverting you to the login page")
-    setTimeout(() => {
-        window.location.href = '../login/index.html'
-    }, 2000)
+    
 
 
-}
-
-
-function loginUp(){
-    setTimeout(() =>{
-        window.location.href = '../login/index.html'
-    }, 1000);
-}
+// function loginUp(){
+//     setTimeout(() =>{
+//         window.location.href = '../login/index.html'
+//     }, 1000);
+// }
