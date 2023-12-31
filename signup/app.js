@@ -1,16 +1,22 @@
 // importing data form utilites files for firebase
 import {
-
+  addDoc,
   auth,
   createUserWithEmailAndPassword,
-
- } from "firebase/auth";
+  onAuthStateChanged,
+  collection,
+  db,
+  doc,
+  onAuthStateChanged,
+  setDoc,
+ } from "../utilites/app.js";
 
 const userName = document.getElementById('userName');
 const email = document.getElementById('email')
 const password = document.getElementById('password')
 const cPassword = document.getElementById('cPassword')
 const signupSubmitBtn = document.getElementById("signupSubmitBtn");
+const loginpage = document.getElementById("loginpage");
 
 // local storage
 // const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -22,11 +28,12 @@ onAuthStateChanged(auth, (user) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/auth.user
     const uid = user.uid;
+    console.log(uid, "==>> uid");
     // ...
   } else {
     // User is signed out
     // ...
-  }
+    }
     });
 });
 
@@ -91,12 +98,23 @@ const signupHandler = () => {
     }      
     })
     .catch((error) => {
-        atch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;           
+        const errorCode = error.code;
+        const errorMessage = error.message;           
     });
+    
+}
 
-    signupSubmitBtn.addEventListener('click', signupHandler);
+function loginUp(){
+    setTimeout(() => {
+        window.location.href = '../login/index.html'
+    }, 1000);
+}
+
+
+
+signupSubmitBtn.addEventListener('click', signupHandler);
+loginpage.addEventListener('click', loginUp);
+
 
     //   .catch((error) => {
     //     const errorCode = error.code;

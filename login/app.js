@@ -1,15 +1,41 @@
+import {
+    auth,
+    onAuthStateChanged,
+    signInWithEmailAndPassword
+ } from "../utilites/app.js";
+
+
+
 const email = document.getElementById('email')
 const password = document.getElementById('password')
+const loginSubmitBtn = document.getElementById("loginSubmitBtn");
+const redirectiontomainpage = document.getElementById("redirectiontomainpage");
 
-const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'))
 
-if(loggedInUser) window.location.href = '../home/index.html'
+// const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'))
+
+// if(loggedInUser) window.location.href = '../home/index.html'
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/auth.user
+      const uid = user.uid;
+      console.log(uid, "==>> uid");
+      window.location.href = "../home/index.html";
+      // ...
+    } else {
+      // User is signed out
+      // ...
+      // window.location.href = "../login/index.html";
+    }
+  });
 
 
 
 const loginUp = () => {
 
-    const users = JSON.parse(localStorage.getItem('users'))
+    // const users = JSON.parse(localStorage.getItem('users'))
 
         if (!email.value || !password.value){
         Swal.fire({
@@ -38,43 +64,68 @@ const loginUp = () => {
 
     } 
 
-    const foundUser = users.find(user => {
-        if (user.email === email.value) return user
-    });
+    // const foundUser = users.find(user => {
+    //     if (user.email === email.value) return user
+    // });
 
 
-    if (!foundUser) {
-        Swal.fire({
-            icon: "error",
-            title: "No User Found...",
-            text: "user not found!",
-        });
-        return;
-    }
+    // if (!foundUser) {
+    //     Swal.fire({
+    //         icon: "error",
+    //         title: "No User Found...",
+    //         text: "user not found!",
+    //     });
+    //     return;
+    // }
     
       
-    if (foundUser.password !== password.value) {
-        Swal.fire({
-            icon: "error",
-            title: "Invalid Credentials...",
-            text: "Invalid Credentials!",
-        });
-        return;
-    } else {
-        Swal.fire({
-            icon: "sucess",
-            title: "Login Successfully, diverting you to the home page...",
-            text: "Login Successfully, diverting you to the home page!",
-        });
+    // if (foundUser.password !== password.value) {
+    //     Swal.fire({
+    //         icon: "error",
+    //         title: "Invalid Credentials...",
+    //         text: "Invalid Credentials!",
+    //     });
+    //     return;
+    // } else {
+    //     Swal.fire({
+    //         icon: "sucess",
+    //         title: "Login Successfully, diverting you to the home page...",
+    //         text: "Login Successfully, diverting you to the home page!",
+    //     });
         
 
-    }
-    
-    localStorage.setItem('loggedInUser', JSON.stringify(foundUser))
+    // }
 
-    setTimeout(() => {
-        window.location.href = '../home/index.html'
-    }, 2000)
+    
+    signInWithEmailAndPassword(auth, email.value, password.value)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      console.log(user, "===>> user");
+
+      alert("Login Successfully, diverting you to the home page");
+
+      //   localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+
+      setTimeout(() => {
+        window.location.href = "../home/index.html";
+      }, 2000);
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorCode);
+    });
+};
+
+
+
+    // localStorage.setItem('loggedInUser', JSON.stringify(foundUser))
+
+    // setTimeout(() => {
+    //     window.location.href = '../home/index.html'
+    // }, 2000)
 
 
 
@@ -90,3 +141,6 @@ function redirectiontomainpage(){
 
 
 }
+
+loginSubmitBtn.addEventListener("click", loginUp);
+redirectiontomainpage.addEventListener('click', redirectiontomainpage);
