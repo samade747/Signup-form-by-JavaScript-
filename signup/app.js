@@ -6,8 +6,7 @@ import {
   onAuthStateChanged,
   collection,
   db,
-  doc,
-  onAuthStateChanged,
+  doc,  
   setDoc,
  } from "../utilites/app.js";
 
@@ -105,6 +104,7 @@ const signupHandler = () => {
 }
 
 function loginUp(){
+    console.log('LoginUp click karah');
     setTimeout(() => {
         window.location.href = '../login/index.html'
     }, 1000);
