@@ -1,7 +1,7 @@
 import {
     auth,
     onAuthStateChanged,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
  } from "../utilites/app.js";
 
 
@@ -9,7 +9,8 @@ import {
 const email = document.getElementById('email')
 const password = document.getElementById('password')
 const loginSubmitBtn = document.getElementById("loginSubmitBtn");
-const redirectiontomainpage = document.getElementById("redirectiontomainpage");
+const signupf = document.getElementById("signupf");
+console.log(signupf);
 
 
 // const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'))
@@ -94,7 +95,7 @@ const loginUp = () => {
     //     });
         
 
-    // }
+    
 
     
     signInWithEmailAndPassword(auth, email.value, password.value)
@@ -131,16 +132,16 @@ const loginUp = () => {
 
 
 
-}
 
 
-function redirectiontomainpage(){
+
+function redirectionTomainpage(){
     setTimeout(() => {
         window.location.href = '../signup/index.html'
-    }, 1000)
+    }, 1000);
 
 
 }
 
 loginSubmitBtn.addEventListener("click", loginUp);
-redirectiontomainpage.addEventListener('click', redirectiontomainpage);
+signupf.addEventListener('click', redirectionTomainpage);
