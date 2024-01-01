@@ -35,11 +35,14 @@ onAuthStateChanged(auth, async (user) => {
     } else {
       console.log("No such document!");
     }
+
   } else {
     // User is signed out
     alert("User signed out");
   }
 });
+
+
 
 // Signup form submit handler
 const signupHandler = () => {
@@ -49,8 +52,9 @@ const signupHandler = () => {
       icon: "error",
       title: "Required...",
       text: "Please fill all fields carefully!",
-    });
-    return;
+      
+    })
+    return
   } else {
     // Checking password length
     if (password.value.length < 8) {
@@ -58,8 +62,9 @@ const signupHandler = () => {
         icon: "error",
         title: "Password...",
         text: "Password should be at least 8 characters long!",
-      });
-      return;
+        
+      })
+      return      
     } else {
       // Checking if passwords match
       if (password.value !== cPassword.value) {
@@ -67,8 +72,9 @@ const signupHandler = () => {
           icon: "error",
           title: "Password...",
           text: "Passwords do not match!",
+          
         });
-        return;
+        return
       }
     }
   }
