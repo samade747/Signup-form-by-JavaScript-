@@ -156,17 +156,17 @@ const signupHandler = () => {
     
 }
 
-function loginUp(){
-    console.log('LoginUp click karah');
-    setTimeout(() => {
-        window.location.href = '../login/index.html'
-    }, 1000);
-}
+// function loginUp(){
+//     console.log('LoginUp click karah');
+//     setTimeout(() => {
+//         window.location.href = '../login/index.html'
+//     }, 1000);
+// }
 
 
 
 signupSubmitBtn.addEventListener('click', signupHandler);
-loginpage.addEventListener('click', loginUp);
+// loginpage.addEventListener('click', loginUp);
 
 
     //   .catch((error) => {

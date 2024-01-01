@@ -159,13 +159,13 @@ const loginUp = () => {
 
 
 
-function redirectionTomainpage(){
-    setTimeout(() => {
-        window.location.href = '../signup/index.html'
-    }, 1000);
+// function redirectionTomainpage(){
+//     setTimeout(() => {
+//         window.location.href = '../signup/index.html'
+//     }, 1000);
 
 
-}
+// }
 
 loginSubmitBtn.addEventListener("click", loginUp);
-signupf.addEventListener('click', redirectionTomainpage);
+// signupf.addEventListener('click', redirectionTomainpage);
