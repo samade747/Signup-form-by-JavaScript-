@@ -6,7 +6,7 @@ import {
     onAuthStateChanged,
     setDoc,
     signOut,
-  } from "../utils/firebaseConfig.js";
+  } from "../utilites/app.js";
   
   const userNameHtml = document.querySelector("#userName");
   const descHtml = document.querySelector("#desc");
