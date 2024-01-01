@@ -126,86 +126,9 @@ const signupHandler = () => {
       alert(errorCode);
       // ..
     });
-
-
-   
-    // createUserWithEmailAndPassword(auth, email.value, password.value)
-    //   .then(async (userCredential) => {
-    //     // Signed up 
-    //     const user = userCredential.user;
-    //     // ...
-    //   try{
-    //     const docRef = await setDoc(doc(db, 'users', user.uid), {
-    //         userName: userName.value,
-    //         email: email.value,
-    //         uid: user.uid,
-    //     }); 
-
-    //     alert("Signup Successfully, now you can login, diverting you to the login page")
-    //     setTimeout(() => {
-    //         window.location.href = '../login/index.html'
-    //     }, 2000)        
-    // } catch(e){
-    //     console.error('Error adding document: ', e);
-    // }      
-    // })
-    // .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;           
-    // });
-    
-}
-
-// function loginUp(){
-//     console.log('LoginUp click karah');
-//     setTimeout(() => {
-//         window.location.href = '../login/index.html'
-//     }, 1000);
-// }
+  }
 
 
 
 signupSubmitBtn.addEventListener('click', signupHandler);
 // loginpage.addEventListener('click', loginUp);
-
-
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     // ..
-    //   
-
-    // })
-    // const userNameFound = users.find((user) => {
-    //     return user.userName === userName.value;
-    // });
-    
-    // if (userNameFound) {
-    //     Swal.fire({
-    //         icon: "error",
-    //         title: "Username...",
-    //         text: "Username already taken. Choose another!",
-    //     });
-    //     return;
-    // }
-
-    // const user = {
-    //     id: Date.now(),
-    //     userName: userName.value,
-    //     email: email.value,
-    //     password: password.value,
-    //     cPassword: cPassword.value
-    // }
-
-    // users.push(user);
-
-    // localStorage.setItem('users', JSON.stringify(users));
-    
-    
-
-
-// function loginUp(){
-//     setTimeout(() =>{
-//         window.location.href = '../login/index.html'
-//     }, 1000);
-// }
