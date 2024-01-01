@@ -27,7 +27,7 @@
                     <div class="col-md-6 col-sm-6">
                         <label for="username" class="form-label">User Name</label>
                         <input type="text" class="form-control" id="userName" required="true" aria-describedby="text">
-                        <div id="fullNameHelp" class="form-text">Enter your username, if already exist So login</div>
+                        
                       </div>
                     </div>
 
@@ -63,7 +63,7 @@
                  <div class="col-md-6 col-sm-6" >
                     <div class="mb-3">
                         <label for="ConfirmPassword" class="form-label">Confirm Password</label>
-                        <!-- <input type="password" class="form-control" id="ConfirmPassword"> -->
+                        <!-- <input type="password" class="form-control" id="cPassword"> -->
                         <span class="input-group-text" onclick="password_show_hide1();">
                           <input type="password" class="input form-control" id="cPassword" placeholder="Confirm password" required="true" aria-label="password" aria-describedby="basic-addon1" />  
                         <i class="fas fa-eye" id="show_eyee"></i>
@@ -72,10 +72,14 @@
                         
                         <div id="ConfirmPasswordhelp" class="form-text">please re-enter your password to confirm</div>
                     </div>
+
+                    <div style="display:flex; justify-content: center">
+                      <p>Already have an account <a href="../login/index.html">Click here</a></p>
+                  </div>
                  </div>
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-primary m-2" id="signupSubmitBtn" >SignUp Now</button>  
+                    <button type="submit" class="btn btn-primary m-2" id="signupSubmitBtn" >SUBMIT</button>  
                     <button type="button" class="btn btn-primary m-2" id="loginpage">login</button>
                   </form>
                   
