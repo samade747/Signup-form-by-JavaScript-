@@ -21,21 +21,37 @@ const loginpage = document.getElementById("loginpage");
 // const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 // if(loggedInUser) window.location.href = '../profile/index.html'
 
-window.addEventListener('load', (event) =>{
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/auth.user
-    const uid = user.uid;
-    console.log(uid, "==>> uid");
-    // ...
-  } else {
-    // User is signed out
-    // ...
-    }
-    });
-});
 
+onAuthStateChanged(auth, async (user) => {
+    //login
+    if (user) {
+      const uid = user.uid; //uid
+      console.log(uid, "==>> uid");
+  
+      alert("user is logged in");
+  
+      const docRef = doc(db, "users", uid);
+      const docSnap = await getDoc(docRef);
+  
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+  
+        alert("user data is available");
+        // window.location.href = "../home/index.html";
+      } else {
+        // docSnap.data() will be undefined in this case
+        console.log("No such document!");
+      }
+  
+      // ...
+    } else {
+      alert("user signout hai")
+      // User is signed out
+      // ...
+      // window.location.href = "../login/index.html";
+    }
+  });
+  
 
 
 
@@ -45,9 +61,7 @@ onAuthStateChanged(auth, (user) => {
 
 
 const signupHandler = () => {
-
-    const users = JSON.parse(localStorage.getItem('users')) || []
-    
+      
     if (!userName.value || !email.value || !password.value || !cPassword.value) {
         Swal.fire({
             icon: "error",
@@ -75,31 +89,70 @@ const signupHandler = () => {
         }
     }
 
-   
     createUserWithEmailAndPassword(auth, email.value, password.value)
-      .then(async (userCredential) => {
-        // Signed up 
-        const user = userCredential.user;
-        // ...
-      try{
-        const docRef = await setDoc(doc(db, 'users', user.uid), {
-            userName: userName.value,
-            email: email.value,
-            uid: user.uid,
-        }); 
+    .then(async (userCredential) => {
+      console.log("user register hogaya aur sath main login bhi hogaya")
+      // Signed up
+      const user = userCredential.user;
+      console.log(user, "====>>> user");
 
-        alert("Signup Successfully, now you can login, diverting you to the login page")
+      //Now will save my data in database
+      alert("main user save karwaney ki koshish karunga")
+      try {
+        const docRef = await setDoc(doc(db, "users", user.uid), {
+          userName: userName.value,
+          email: email.value,
+          uid: user.uid,
+        });
+        alert("user save hogaya")
+        alert(
+          "User have registered Successfully, now you are re-directing to login page"
+        );
         setTimeout(() => {
-            window.location.href = '../login/index.html'
-        }, 2000)        
-    } catch(e){
-        console.error('Error adding document: ', e);
-    }      
+          window.location.href = "../login/index.html";
+        }, 2000);
+      } catch (e) {
+        alert("error aagaya")
+        console.error("Error adding document: ", e);
+      }
+
+      // ...
     })
     .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;           
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, "===>>>> errorCode");
+      console.log(errorMessage, "===>>>> errorMessage");
+      alert(errorCode);
+      // ..
     });
+
+
+   
+    // createUserWithEmailAndPassword(auth, email.value, password.value)
+    //   .then(async (userCredential) => {
+    //     // Signed up 
+    //     const user = userCredential.user;
+    //     // ...
+    //   try{
+    //     const docRef = await setDoc(doc(db, 'users', user.uid), {
+    //         userName: userName.value,
+    //         email: email.value,
+    //         uid: user.uid,
+    //     }); 
+
+    //     alert("Signup Successfully, now you can login, diverting you to the login page")
+    //     setTimeout(() => {
+    //         window.location.href = '../login/index.html'
+    //     }, 2000)        
+    // } catch(e){
+    //     console.error('Error adding document: ', e);
+    // }      
+    // })
+    // .catch((error) => {
+    //     const errorCode = error.code;
+    //     const errorMessage = error.message;           
+    // });
     
 }
 
