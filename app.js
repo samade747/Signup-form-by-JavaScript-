@@ -1,3 +1,4 @@
+// Importing necessary modules from utilities/app.js
 import {
   auth,
   createUserWithEmailAndPassword,
@@ -42,6 +43,7 @@ onAuthStateChanged(auth, async (user) => {
 
 // Signup form submit handler
 const signupHandler = () => {
+  // Validating form fields
   if (!userName.value || !email.value || !password.value || !cPassword.value) {
     Swal.fire({
       icon: "error",
@@ -50,6 +52,7 @@ const signupHandler = () => {
     });
     return;
   } else {
+    // Checking password length
     if (password.value.length < 8) {
       Swal.fire({
         icon: "error",
@@ -58,6 +61,7 @@ const signupHandler = () => {
       });
       return;
     } else {
+      // Checking if passwords match
       if (password.value !== cPassword.value) {
         Swal.fire({
           icon: "error",
@@ -94,6 +98,7 @@ const signupHandler = () => {
       }
     })
     .catch((error) => {
+      // Handle authentication errors
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode, "===>>>> errorCode");
@@ -104,4 +109,3 @@ const signupHandler = () => {
 
 // Event listener for signup button click
 signupSubmitBtn.addEventListener('click', signupHandler);
-
