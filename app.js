@@ -105,15 +105,3 @@ const signupHandler = () => {
 // Event listener for signup button click
 signupSubmitBtn.addEventListener('click', signupHandler);
 
-
-
-
-
-
-
-
-
-
-
-
-
