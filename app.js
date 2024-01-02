@@ -48,37 +48,36 @@ onAuthStateChanged(auth, async (user) => {
 const signupHandler = () => {
   // Validating form fields
   if (!userName.value || !email.value || !password.value || !cPassword.value) {
-    Swal.fire({
+    return Swal.fire({
       icon: "error",
       title: "Required...",
       text: "Please fill all fields carefully!",
       
     })
-    return
+    
   } else {
     // Checking password length
     if (password.value.length < 8) {
-      Swal.fire({
+      return Swal.fire({
         icon: "error",
         title: "Password...",
         text: "Password should be at least 8 characters long!",
         
       })
-      return      
+            
     } else {
       // Checking if passwords match
       if (password.value !== cPassword.value) {
-        Swal.fire({
+        return Swal.fire({
           icon: "error",
           title: "Password...",
           text: "Passwords do not match!",
           
         });
-        return
+        
       }
     }
   }
-
   // Create user with email and password
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .then(async (userCredential) => {
@@ -95,6 +94,7 @@ const signupHandler = () => {
         });
         alert("User data saved successfully");
         alert("User registered successfully, redirecting to login page");
+        
         setTimeout(() => {
           window.location.href = "../login/index.html";
         }, 2000);
@@ -111,7 +111,7 @@ const signupHandler = () => {
       console.log(errorMessage, "===>>>> errorMessage");
       alert(errorCode);
     });
-}
+};
 
 // Event listener for signup button click
 signupSubmitBtn.addEventListener('click', signupHandler);
