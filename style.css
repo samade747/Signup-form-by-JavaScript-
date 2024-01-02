@@ -37,8 +37,8 @@
   .title::after {
     position: absolute;
     content: "";
-    height: 16px;
-    width: 16px;
+    height: 30px;
+    width: 30px;
     border-radius: 50%;
     left: 0px;
     background-color: #00bfff;
