@@ -1,14 +1,8 @@
 // Importing necessary modules from utilities/app.js
 import {
-  auth,
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  doc,
-  setDoc,
-  getDoc,
-  collection,
-  db,
-} from "../utilites/app.js";
+  signUp,
+} from "../utilities/functions.mjs";
+import { auth } from "./utilites/app.js";
 
 // Selecting form elements
 const userName = document.getElementById('userName');
@@ -79,8 +73,19 @@ const signupHandler = () => {
     }
   }
 
-  
-
+  signUp(auth (email.value, password.value))
+  .then(result => {
+    if(result.status){
+      console.log(result.message);
+      console.log('User data: ', result.data);
+    } else {
+      console.log(result.message);
+      console.log('Error Code: ', result.code);
+    }
+  }) 
+.catch(error => {
+  console.error('Unexpected error', error);
+});
 
 
 
