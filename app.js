@@ -11,35 +11,35 @@ const password = document.getElementById('password');
 const cPassword = document.getElementById('cPassword');
 const signupSubmitBtn = document.getElementById("signupSubmitBtn");
 
-// Firebase authentication state change listener
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    // User is logged in
-    const uid = user.uid;
-    console.log(uid, "==>> uid");
-    alert("User is logged in");
+// // Firebase authentication state change listener
+// onAuthStateChanged(auth, async (user) => {
+//   if (user) {
+//     // User is logged in
+//     const uid = user.uid;
+//     console.log(uid, "==>> uid");
+//     alert("User is logged in");
 
-    // Check if user data is available in Firestore
-    const docRef = doc(db, "users", uid);
-    const docSnap = await getDoc(docRef);
+//     // Check if user data is available in Firestore
+//     const docRef = doc(db, "users", uid);
+//     const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      alert("User data is available");
-    } else {
-      console.log("No such document!");
-    }
+//     if (docSnap.exists()) {
+//       console.log("Document data:", docSnap.data());
+//       alert("User data is available");
+//     } else {
+//       console.log("No such document!");
+//     }
 
-  } else {
-    // User is signed out
-    alert("User signed out");
-  }
-});
+//   } else {
+//     // User is signed out
+//     alert("User signed out");
+//   }
+// });
 
 
 
 // Signup form submit handler
-const signupHandler = () => {
+const signupHandler = async() => {
   // Validating form fields
   if (!userName.value || !email.value || !password.value || !cPassword.value) {
     return Swal.fire({
@@ -72,37 +72,17 @@ const signupHandler = () => {
       }
     }
   }
-
-  signUp(email.value, password.value)
-  .then(result => {
-    if(result.status){
-      console.log(result.message);
-      console.log('User data: ', result.data);
-      window.location.href = './login/index.html'
-    } else {
-      console.log(result.message);
-      console.log('Error Code: ', result.code);
+  
+  const registration = signUp(email.value, password.value)
+ if(registration.status){
+  alert(registration.message);
+  window.location.href = './login/index.html'
+ }else {
+      alert(registration.message);
     }
-  }) 
-.catch(error => {
-  console.error('Unexpected error:', error);
-});
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // Create user with email and password
+ // Create user with email and password
   // createUserWithEmailAndPassword(auth, email.value, password.value)
   //   .then(async (userCredential) => {
   //     console.log("User registered and logged in");
