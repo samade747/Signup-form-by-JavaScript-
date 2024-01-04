@@ -73,18 +73,19 @@ const signupHandler = () => {
     }
   }
 
-  signUp(auth (email.value, password.value))
+  signUp(email.value, password.value)
   .then(result => {
     if(result.status){
       console.log(result.message);
       console.log('User data: ', result.data);
+      window.location.href = './login/index.html'
     } else {
       console.log(result.message);
       console.log('Error Code: ', result.code);
     }
   }) 
 .catch(error => {
-  console.error('Unexpected error', error);
+  console.error('Unexpected error:', error);
 });
 
 
