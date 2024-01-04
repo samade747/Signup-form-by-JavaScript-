@@ -78,39 +78,57 @@ const signupHandler = () => {
       }
     }
   }
-  // Create user with email and password
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(async (userCredential) => {
-      console.log("User registered and logged in");
-      const user = userCredential.user;
-      console.log(user, "====>>> user");
 
-      // Save user data in Firestore
-      try {
-        const docRef = await setDoc(doc(db, "users", user.uid), {
-          userName: userName.value,
-          email: email.value,
-          uid: user.uid,
-        });
-        alert("User data saved successfully");
-        alert("User registered successfully, redirecting to login page");
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Create user with email and password
+  // createUserWithEmailAndPassword(auth, email.value, password.value)
+  //   .then(async (userCredential) => {
+  //     console.log("User registered and logged in");
+  //     const user = userCredential.user;
+  //     console.log(user, "====>>> user");
+
+  //     // Save user data in Firestore
+  //     try {
+  //       const docRef = await setDoc(doc(db, "users", user.uid), {
+  //         userName: userName.value,
+  //         email: email.value,
+  //         uid: user.uid,
+  //       });
+  //       alert("User data saved successfully");
+  //       alert("User registered successfully, redirecting to login page");
         
-        setTimeout(() => {
-          window.location.href = "../login/index.html";
-        }, 2000);
-      } catch (e) {
-        alert("Error saving user data");
-        console.error("Error adding document: ", e);
-      }
-    })
-    .catch((error) => {
-      // Handle authentication errors
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, "===>>>> errorCode");
-      console.log(errorMessage, "===>>>> errorMessage");
-      alert(errorCode);
-    });
+  //       setTimeout(() => {
+  //         window.location.href = "../login/index.html";
+  //       }, 2000);
+  //     } catch (e) {
+  //       alert("Error saving user data");
+  //       console.error("Error adding document: ", e);
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     // Handle authentication errors
+  //     const errorCode = error.code;
+  //     const errorMessage = error.message;
+  //     console.log(errorCode, "===>>>> errorCode");
+  //     console.log(errorMessage, "===>>>> errorMessage");
+  //     alert(errorCode);
+  //   });
 };
 
 // Event listener for signup button click
