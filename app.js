@@ -53,41 +53,43 @@ const signupSubmitBtn = document.getElementById("signupSubmitBtn");
 //     alert("User signed out");
 //   }
 // });
-
-
-
 // Signup form submit handler
-const signupHandler = async() => {
-  preventDefault()
+
+
+
+const signupHandler = async () => {
+  // Prevent form submission
+  event.preventDefault();
+
   // Validating form fields
   if (!userName.value || !email.value || !password.value || !cPassword.value) {
-     Swal.fire({
+    // Show error message with Swal
+    Swal.fire({
       icon: "error",
       title: "Required...",
       text: "Please fill all fields carefully!",
-      
-    })
-    return
+    });
+    return;
   } else {
     // Checking password length
     if (password.value.length < 8) {
-       Swal.fire({
+      // Show error message with Swal
+      Swal.fire({
         icon: "error",
         title: "Password...",
         text: "Password should be at least 8 characters long!",
-        
-      })
-      return      
+      });
+      return;
     } else {
       // Checking if passwords match
       if (password.value !== cPassword.value) {
-         Swal.fire({
+        // Show error message with Swal
+        Swal.fire({
           icon: "error",
           title: "Password...",
           text: "Passwords do not match!",
-          
         });
-        return
+        return;
       }
     }
   }
@@ -96,61 +98,53 @@ const signupHandler = async() => {
     name: name.value,
     email: email.value,
     userName: userName.value,
-    password: password.value
-  }
-  // calling function by utilities 
-  const registering = signUp(email.value, password.value)
- if(registration.status){
-  const userAddInDB = await addInDBById(data, registering.data.user.uid, 'users')
-  if(userAddInDB.status){
-  alert(userAddInDB.message)
-  alert(registering.message);
-  window.location.href = './login/index.html'
+    password: password.value,
+  };
+
+  // Call the signUp function from utilities
+  const registering = signUp(email.value, password.value);
+
+  if (registering.status) {
+    try {
+      // Add user data to Firestore
+      const userAddInDB = await addInDBById(data, registering.data.user.uid, 'users');
+
+      if (userAddInDB.status) {
+        // Show success message with Swal
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: "User registered successfully!",
+        }).then(() => {
+          // Redirect to the home page
+          window.location.href = './path/to/homepage.html';
+        });
+      } else {
+        // Show error message with Swal
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: userAddInDB.message,
+        });
+      }
+    } catch (error) {
+      // Handle any additional errors
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An error occurred while registering the user.",
+      });
+    }
   } else {
-      alert(userAddInDB.message);
-  } 
-}else{
-  alert(registering.message)
-}
-
-}
-
-signupSubmitBtn.addEventListener('click', signupHandler)
-
- // Create user with email and password
-  // createUserWithEmailAndPassword(auth, email.value, password.value)
-  //   .then(async (userCredential) => {
-  //     console.log("User registered and logged in");
-  //     const user = userCredential.user;
-  //     console.log(user, "====>>> user");
-
-  //     // Save user data in Firestore
-  //     try {
-  //       const docRef = await setDoc(doc(db, "users", user.uid), {
-  //         userName: userName.value,
-  //         email: email.value,
-  //         uid: user.uid,
-  //       });
-  //       alert("User data saved successfully");
-  //       alert("User registered successfully, redirecting to login page");
-        
-  //       setTimeout(() => {
-  //         window.location.href = "../login/index.html";
-  //       }, 2000);
-  //     } catch (e) {
-  //       alert("Error saving user data");
-  //       console.error("Error adding document: ", e);
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     // Handle authentication errors
-  //     const errorCode = error.code;
-  //     const errorMessage = error.message;
-  //     console.log(errorCode, "===>>>> errorCode");
-  //     console.log(errorMessage, "===>>>> errorMessage");
-  //     alert(errorCode);
-  //   });
-
+    // Show error message with Swal
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: registering.message,
+    });
+  }
+};
 
 // Event listener for signup button click
-
+signupSubmitBtn.addEventListener('click', signupHandler);

@@ -1,4 +1,4 @@
-import { getData, getLoggedInUser, updateData } from "../utils/functions.mjs";
+import { getData, getLoggedInUser, updateData } from "../utilites/functions.mjs";
 
 const profilePicture = document.getElementById('profilePicture');
 const profilePicture2 = document.getElementById('profilePicture2');
