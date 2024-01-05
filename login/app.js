@@ -1,32 +1,37 @@
 // Import necessary functions from the Firebase SDK
-import { auth, db, doc, getDoc, onAuthStateChanged, signInWithEmailAndPassword } from "../utilites/app.js";
+import { signUp, login, addInDBById, getLoggedInUser, getData, updateData } from "../utilites/functions.mjs";
+
+// import { auth, db, doc, getDoc, onAuthStateChanged, signInWithEmailAndPassword } from "../utilites/app.js";
 
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const loginSubmitBtn = document.getElementById("loginSubmitBtn");
 
-// Firebase authentication state change listener
-onAuthStateChanged(auth, async (user) => {
-  if (user) { // User is logged in
-    const uid = user.uid;
-    console.log(uid, "==>> uid");
-    alert("User logged in");
-    const docRef = doc(db, "users", uid);
-    const docSnap = await getDoc(docRef);
+// // Firebase authentication state change listener
+// onAuthStateChanged(auth, async (user) => {
+//   if (user) { // User is logged in
+//     const uid = user.uid;
+//     console.log(uid, "==>> uid");
+//     alert("User logged in");
+//     const docRef = doc(db, "users", uid);
+//     const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      alert("User data is available");
-      window.location.href = "../home/index.html";
-    } else {
-      console.log("No such document!");
-    }
-  } else {
-    alert("User signed out");
-  }
-});
+//     if (docSnap.exists()) {
+//       console.log("Document data:", docSnap.data());
+//       alert("User data is available");
+//       window.location.href = "../home/index.html";
+//     } else {
+//       console.log("No such document!");
+//     }
+//   } else {
+//     alert("User signed out");
+//   }
+// });
 
-const loginUp = () => {
+const loginUp = async () => {
+
+  console.log(email, password)
+
   if (!email.value || !password.value) {
     Swal.fire({
       icon: "error",
@@ -43,23 +48,33 @@ const loginUp = () => {
     return;
   }
 
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log(user, "===>> user");
-      alert("Login successful, redirecting to home page");
+  const logging = await login(email.value, password.value)
+  if(logging.status) {
+    alert(logging.message)
+    window.location.href = '../home/index.html'
+  } else {
+    alert(logging.message)
+  }
+}
 
-      setTimeout(() => {
-        window.location.href = "../home/index.html";
-      }, 2000);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error(errorCode, errorMessage);
-      alert("Error during sign-in: " + errorMessage);
-    });
-};
+
+//   signInWithEmailAndPassword(auth, email.value, password.value)
+//     .then((userCredential) => {
+//       const user = userCredential.user;
+//       console.log(user, "===>> user");
+//       alert("Login successful, redirecting to home page");
+
+//       setTimeout(() => {
+//         window.location.href = "../home/index.html";
+//       }, 2000);
+//     })
+//     .catch((error) => {
+//       const errorCode = error.code;
+//       const errorMessage = error.message;
+//       console.error(errorCode, errorMessage);
+//       alert("Error during sign-in: " + errorMessage);
+//     });
+// };
 
 loginSubmitBtn.addEventListener("click", loginUp);
 
