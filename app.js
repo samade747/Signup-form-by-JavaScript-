@@ -1,8 +1,9 @@
 // Importing necessary modules from utilities/app.js
 import {
   signUp,
-} from "../utilities/functions.mjs";
-import { auth } from "./utilites/app.js";
+} from "../utilites/functions.mjs"; 
+
+import { auth, onAuthStateChanged } from "./utilites/app.js";
 
 // Selecting form elements
 const userName = document.getElementById('userName');
@@ -10,6 +11,19 @@ const email = document.getElementById('email');
 const password = document.getElementById('password');
 const cPassword = document.getElementById('cPassword');
 const signupSubmitBtn = document.getElementById("signupSubmitBtn");
+
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/auth.user
+    const uid = user.uid;
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
 
 // // Firebase authentication state change listener
 // onAuthStateChanged(auth, async (user) => {
@@ -42,33 +56,33 @@ const signupSubmitBtn = document.getElementById("signupSubmitBtn");
 const signupHandler = async() => {
   // Validating form fields
   if (!userName.value || !email.value || !password.value || !cPassword.value) {
-    return Swal.fire({
+     Swal.fire({
       icon: "error",
       title: "Required...",
       text: "Please fill all fields carefully!",
       
     })
-    
+    return
   } else {
     // Checking password length
     if (password.value.length < 8) {
-      return Swal.fire({
+       Swal.fire({
         icon: "error",
         title: "Password...",
         text: "Password should be at least 8 characters long!",
         
       })
-            
+      return      
     } else {
       // Checking if passwords match
       if (password.value !== cPassword.value) {
-        return Swal.fire({
+         Swal.fire({
           icon: "error",
           title: "Password...",
           text: "Passwords do not match!",
           
         });
-        
+        return
       }
     }
   }
@@ -115,7 +129,7 @@ const signupHandler = async() => {
   //     console.log(errorMessage, "===>>>> errorMessage");
   //     alert(errorCode);
   //   });
-};
+
 
 // Event listener for signup button click
 signupSubmitBtn.addEventListener('click', signupHandler);

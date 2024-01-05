@@ -1,4 +1,4 @@
-import { auth, createUserWithEmailAndPassword, db, doc, getDoc, setDoc, signInWithEmailAndPassword } from ".utilites/app.js"
+import { auth, createUserWithEmailAndPassword, db, doc, getDoc, setDoc, signInWithEmailAndPassword } from "./app.js"
 
 
 // created signup function through firebase auth
