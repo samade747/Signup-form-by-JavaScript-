@@ -58,6 +58,7 @@ const signupSubmitBtn = document.getElementById("signupSubmitBtn");
 
 // Signup form submit handler
 const signupHandler = async() => {
+  preventDefault()
   // Validating form fields
   if (!userName.value || !email.value || !password.value || !cPassword.value) {
      Swal.fire({

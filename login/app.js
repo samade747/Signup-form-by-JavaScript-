@@ -29,7 +29,7 @@ const loginSubmitBtn = document.getElementById("loginSubmitBtn");
 // });
 
 const loginUp = async () => {
-
+  preventDefault()
   console.log(email, password)
 
   if (!email.value || !password.value) {
@@ -51,7 +51,7 @@ const loginUp = async () => {
   const logging = await login(email.value, password.value)
   if(logging.status) {
     alert(logging.message)
-    window.location.href = '../home/index.html'
+    window.location.href = './home/index.html'
   } else {
     alert(logging.message)
   }
