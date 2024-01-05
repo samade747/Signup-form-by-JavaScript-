@@ -1,11 +1,13 @@
 // Importing necessary modules from utilities/app.js
 import {
   signUp,
+  addInDBById
 } from "../utilites/functions.mjs"; 
 
 import { auth, onAuthStateChanged } from "./utilites/app.js";
 
 // Selecting form elements
+const name = document.getElementById('Name');
 const userName = document.getElementById('userName');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
@@ -13,17 +15,19 @@ const cPassword = document.getElementById('cPassword');
 const signupSubmitBtn = document.getElementById("signupSubmitBtn");
 
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/auth.user
-    const uid = user.uid;
-    // ...
-  } else {
-    // User is signed out
-    // ... 
-  }
-});
+
+
+// onAuthStateChanged(auth, (user) => {
+//   if (user) {
+//     // User is signed in, see docs for a list of available properties
+//     // https://firebase.google.com/docs/reference/js/auth.user
+//     const uid = user.uid;
+//     // ...
+//   } else {
+//     // User is signed out
+//     // ... 
+//   }
+// });
 
 // // Firebase authentication state change listener
 // onAuthStateChanged(auth, async (user) => {
@@ -86,15 +90,31 @@ const signupHandler = async() => {
       }
     }
   }
-  
-  const registration = signUp(email.value, password.value)
- if(registration.status){
-  alert(registration.message);
-  window.location.href = './login/index.html'
- }else {
-      alert(registration.message);
-    }
+
+  const data = {
+    name: name.value,
+    email: email.value,
+    userName: userName.value,
+    password: password.value
   }
+  // calling function by utilities 
+  const registering = signUp(email.value, password.value)
+ if(registration.status){
+  const userAddInDB = await addInDBById(data, registering.data.user.uid, 'users')
+  if(userAddInDB.status){
+  alert(userAddInDB.message)
+  alert(registering.message);
+  window.location.href = './login/index.html'
+  } else {
+      alert(userAddInDB.message);
+  } 
+}else{
+  alert(registering.message)
+}
+
+}
+
+signupSubmitBtn.addEventListener('click', signupHandler)
 
  // Create user with email and password
   // createUserWithEmailAndPassword(auth, email.value, password.value)
@@ -132,4 +152,4 @@ const signupHandler = async() => {
 
 
 // Event listener for signup button click
-signupSubmitBtn.addEventListener('click', signupHandler);
+
