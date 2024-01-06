@@ -16,47 +16,7 @@ const signupSubmitBtn = document.getElementById("signupSubmitBtn");
 
 
 
-
-// onAuthStateChanged(auth, (user) => {
-//   if (user) {
-//     // User is signed in, see docs for a list of available properties
-//     // https://firebase.google.com/docs/reference/js/auth.user
-//     const uid = user.uid;
-//     // ...
-//   } else {
-//     // User is signed out
-//     // ... 
-//   }
-// });
-
-// // Firebase authentication state change listener
-// onAuthStateChanged(auth, async (user) => {
-//   if (user) {
-//     // User is logged in
-//     const uid = user.uid;
-//     console.log(uid, "==>> uid");
-//     alert("User is logged in");
-
-//     // Check if user data is available in Firestore
-//     const docRef = doc(db, "users", uid);
-//     const docSnap = await getDoc(docRef);
-
-//     if (docSnap.exists()) {
-//       console.log("Document data:", docSnap.data());
-//       alert("User data is available");
-//     } else {
-//       console.log("No such document!");
-//     }
-
-//   } else {
-//     // User is signed out
-//     alert("User signed out");
-//   }
-// });
 // Signup form submit handler
-
-
-
 const signupHandler = async () => {
   // Prevent form submission
   event.preventDefault();
@@ -101,11 +61,11 @@ const signupHandler = async () => {
     password: password.value,
   };
 
-  // Call the signUp function from utilities
-  const registering = signUp(email.value, password.value);
+  try {
+    // Call the signUp function from utilities
+    const registering = await signUp(email.value, password.value);
 
-  if (registering.status) {
-    try {
+    if (registering.status) {
       // Add user data to Firestore
       const userAddInDB = await addInDBById(data, registering.data.user.uid, 'users');
 
@@ -117,9 +77,10 @@ const signupHandler = async () => {
           text: "User registered successfully!",
         }).then(() => {
           // Redirect to the home page
-          window.location.href = './path/to/homepage.html';
+         window.location.href = '/home/index.html';
         });
       } else {
+        console.error("Firebase Authentication Error:", registering.message);
         // Show error message with Swal
         Swal.fire({
           icon: "error",
@@ -127,24 +88,24 @@ const signupHandler = async () => {
           text: userAddInDB.message,
         });
       }
-    } catch (error) {
-      // Handle any additional errors
-      console.error(error);
+    } else {
+      // Show error message with Swal
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "An error occurred while registering the user.",
+        text: registering.message,
       });
     }
-  } else {
-    // Show error message with Swal
+  }catch (error) {
+    // Handle any additional errors
+    console.error("Unexpected Error:", error);
     Swal.fire({
       icon: "error",
       title: "Error",
-      text: registering.message,
+      text: "An error occurred while registering the user.",
     });
   }
-};
+}
 
 // Event listener for signup button click
 signupSubmitBtn.addEventListener('click', signupHandler);
