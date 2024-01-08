@@ -2,7 +2,8 @@
 import {
   signUp,
   addInDBById,
-  uploadFile
+  uploadFile,
+  getLoggedInUser
   
 } from "./utilites/functions.mjs"; 
 
@@ -15,6 +16,27 @@ const password = document.getElementById('password');
 const cPassword = document.getElementById('cPassword');
 const profilePicture = document.getElementById('profilePicture');
 const signupSubmitBtn = document.getElementById("signupSubmitBtn");
+
+
+let userDetails;
+let uid;
+
+const checkLogin = async () => {
+  console.log("===>>> checking login user")
+  const loggedInUser = await getLoggedInUser()
+  if (loggedInUser) {
+    console.log("===>>> user logged in", loggedInUser)
+    uid = loggedInUser.uid
+    window.location.href = "../home/index.html"
+  } else {
+    window.location.href = "../login/index.html"
+  }
+
+}
+
+checkLogin()
+
+
 
 
 
