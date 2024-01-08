@@ -17,8 +17,10 @@ const checkLogin = async () => {
     console.log("===>>> user logged in", loggedInUser)
     uid = loggedInUser.uid
     window.location.href = "../home/index.html"
+        
   } else {
     window.location.href = "../login/index.html"
+    
   }
 
 }

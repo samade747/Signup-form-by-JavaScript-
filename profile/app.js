@@ -87,10 +87,10 @@ const updateProfile = async () => {
 }
 
 
-const logOut = await () => {
+// const logOut = await () => {
 
 
-}
+// }
 
 
 updateBtn.addEventListener('click', updateProfile)
