@@ -21,18 +21,18 @@ const signupSubmitBtn = document.getElementById("signupSubmitBtn");
 let userDetails;
 let uid;
 
-const checkLogin = async () => {
-  console.log("===>>> checking login user")
-  const loggedInUser = await getLoggedInUser()
-  if (loggedInUser) {
-    console.log("===>>> user logged in", loggedInUser)
-    uid = loggedInUser.uid
-    window.location.href = "../home/index.html"
-  } else {
-    window.location.href = "../login/index.html"
-  }
+// const checkLogin = async () => {
+//   console.log("===>>> checking login user")
+//   const loggedInUser = await getLoggedInUser()
+//   if (loggedInUser) {
+//     console.log("===>>> user logged in", loggedInUser)
+//     uid = loggedInUser.uid
+//     window.location.href = "../home/index.html"
+//   } else {
+//     window.location.href = "../login/index.html"
+//   }
 
-}
+// }
 
 
 
@@ -111,9 +111,9 @@ const signupHandler = async () => {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  checkLogin();
-});
+// document.addEventListener("DOMContentLoaded", () => {
+//   checkLogin();
+// });
 
 
 signupSubmitBtn.addEventListener('click', signupHandler)
