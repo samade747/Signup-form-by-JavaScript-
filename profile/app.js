@@ -16,6 +16,7 @@ const hobbiesInput = document.getElementById('hobbiesInput');
 const imageInput = document.getElementById('imageInput');
 const updateBtn = document.getElementById('updateBtn');
 
+
 let userDetails;
 let uid;
 
@@ -84,6 +85,14 @@ const updateProfile = async () => {
     alert(updateUser.message)
   }
 }
+
+
+const logOut = await () => {
+
+
+}
+
+
 updateBtn.addEventListener('click', updateProfile)
 
 
