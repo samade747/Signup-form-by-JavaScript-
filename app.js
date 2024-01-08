@@ -34,7 +34,6 @@ const checkLogin = async () => {
 
 }
 
-checkLogin()
 
 
 
@@ -111,4 +110,10 @@ const signupHandler = async () => {
         alert(registering.message)
     }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  checkLogin();
+});
+
+
 signupSubmitBtn.addEventListener('click', signupHandler)
