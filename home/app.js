@@ -1,4 +1,4 @@
-import { addInDB, getAllDataOrderedByTimestamp, getData, getLoggedInUser, uploadFile } from "../utilites/functions.mjs";
+import { addInDB, getAllDataOrderedByTimestamp, getData, getLoggedInUser, uploadFile, logout } from "../utilites/functions.mjs";
 
 const postInput = document.querySelector("#postInput");
 const postContentArea = document.querySelector("#postContentArea");
@@ -130,31 +130,32 @@ const postSubmitHandler = async () => {
 
 }
 
-submitBtn.addEventListener('click', postSubmitHandler)
+const logoutbtnHanlder = async () =>{
+
+  const logoutStatus = await logout()
+  if(logoutStatus.status){
+    window.location.href = '../index.html'
+  } else {
+    console.log('login failed please try again')
+  }
+}
 
 
-// // checking login functionality 
-// const checkLogin = async () => {
-//   console.log('===> checkig login user')
-//   const loggedInUser = await getLoggedInUser()
-//   if(loggedInUser){
-//     console.log('===> user logged in ', loggedInUser)
 
-//   // getting user data from database
-//   const userData = await getData(loggedInUser.uid, 'users')
-//     if(userData.status){
-//       ppimage.src = userData.data.ppimage || 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png'
-//     } else {
-//       console.log("===>>> user data not found")
-//     }
-//   } else {
-//     console.log('===> user not logged in ')
-//     window.location.href = '../index.html'
-//   }
 
-// }
 
-// checkLogin()
+
+
+
+
+
+
+
+
+logoutBtn.addEventListener('click', logoutbtnHanlder);
+submitBtn.addEventListener('click', postSubmitHandler);
+
+
 
 // // Event listeners
 // logoutBtn.addEventListener("click", logoutHandler);
