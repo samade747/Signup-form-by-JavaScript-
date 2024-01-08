@@ -62,10 +62,7 @@ const loginUp = async () => {
 loginSubmitBtn.addEventListener("click", loginUp);
 
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Check if checkLogin has already been called
-  if (!checkLoginCalled) {
-    checkLogin();
-    return checkLoginCalled = true; 
-  }
-});
+if (!checkLoginCalled) {
+  checkLogin();
+  checkLoginCalled = true; 
+}
