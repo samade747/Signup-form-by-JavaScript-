@@ -66,6 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Check if checkLogin has already been called
   if (!checkLoginCalled) {
     checkLogin();
-    checkLoginCalled = true; 
+    return checkLoginCalled = true; 
   }
 });
