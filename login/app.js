@@ -23,7 +23,7 @@ const checkLogin = async () => {
 
 }
 
-checkLogin()
+
 
 
 
@@ -56,7 +56,9 @@ const loginUp = async () => {
   }
 }
 
-
+document.addEventListener("DOMContentLoaded", () => {
+  checkLogin();
+});
 
 
 loginSubmitBtn.addEventListener("click", loginUp);
