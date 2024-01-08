@@ -7,6 +7,7 @@ const desc = document.getElementById('desc');
 const email = document.getElementById('email');
 const pNumber = document.getElementById('pNumber');
 const hobbies = document.getElementById('hobbies');
+const logoutBtn = document.getElementById('logoutBtn');
 
 const userNameInput = document.getElementById('userNameInput');
 const descInput = document.getElementById('descInput');
@@ -15,6 +16,7 @@ const pNumberInput = document.getElementById('pNumberInput');
 const hobbiesInput = document.getElementById('hobbiesInput');
 const imageInput = document.getElementById('imageInput');
 const updateBtn = document.getElementById('updateBtn');
+
 
 
 let userDetails;
@@ -86,11 +88,30 @@ const updateProfile = async () => {
   }
 }
 
+const logoutbtnHanlder = async () =>{
 
-// const logOut = await () => {
+  const logoutStatus = await logout()
+  if(logoutStatus.status){
+    window.location.href = '../index.html'
+  } else {
+    console.log('login failed please try again')
+  }
+}
 
 
-// }
+
+
+
+
+
+
+
+
+
+
+
+logoutBtn.addEventListener('click', logoutbtnHanlder);
+
 
 
 updateBtn.addEventListener('click', updateProfile)
