@@ -24,7 +24,7 @@ const checkLogin = async () => {
 }
 
 
-
+let checkLoginCalled = false;
 
 
 const loginUp = async () => {
@@ -63,5 +63,9 @@ loginSubmitBtn.addEventListener("click", loginUp);
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  checkLogin();
+  // Check if checkLogin has already been called
+  if (!checkLoginCalled) {
+    checkLogin();
+    checkLoginCalled = true; 
+  }
 });
