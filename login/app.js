@@ -52,7 +52,7 @@ const loginUp = async () => {
   const logging = await login(email.value, password.value)
   if(logging.status) {
     alert(logging.message)
-    window.location.href = './home/index.html'
+    window.location.href = '../home/index.html'
   } else {
     alert(logging.message)
   }
@@ -64,7 +64,7 @@ const loginUp = async () => {
 loginSubmitBtn.addEventListener("click", loginUp);
 
 
-if (!checkLoginCalled) {
-  checkLogin();
-  checkLoginCalled = true; 
-}
+// if (!checkLoginCalled) {
+//   checkLogin();
+//   checkLoginCalled = true; 
+// }
