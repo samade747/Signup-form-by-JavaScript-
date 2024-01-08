@@ -61,53 +61,32 @@ const signupHandler = async () => {
     email: email.value,
     userName: userName.value,
     password: password.value,
-  };
-
-  try {
-    // Call the signUp function from utilities
-    const registering = await signUp(email.value, password.value);
-
-    if (registering.status) {
-      // Add user data to Firestore
-      const userAddInDB = await addInDBById(data, registering.data.user.uid, 'users');
-
-      if (userAddInDB.status) {
-        // Show success message with Swal
-        Swal.fire({
-          icon: "success",
-          title: "Success!",
-          text: "User registered successfully!",
-        }).then(() => {
-          // Redirect to the home page
-         window.location.href = '/home/index.html';
-        });
-      } else {
-        console.error("Firebase Authentication Error:", registering.message);
-        // Show error message with Swal
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: userAddInDB.message,
-        });
-      }
-    } else {
-      // Show error message with Swal
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: registering.message,
-      });
-    }
-  }catch (error) {
-    // Handle any additional errors
-    console.error("Unexpected Error:", error);
-    Swal.fire({
-      icon: "error",
-      title: "Error",
-      text: "An error occurred while registering the user.",
-    });
   }
-}
 
-// Event listener for signup button click
-signupSubmitBtn.addEventListener('click', signupHandler);
+  
+    //calling signup function from utils/functions.mjs
+    const registering = await signUp(email.value, password.value)
+    if (registering.status) {
+        const profilePictureName = `${new Date().getTime()}-${profilePicture.files[0].name}`
+        //calling uploadFile function from utils/functions.mjs
+        const upload = await uploadFile(profilePicture.files[0], profilePictureName)
+        if (upload.status) {
+            data.profilePicture = upload.downloadURL
+            alert(upload.message)
+        } else {
+            alert(upload.message)
+        }
+        //calling addInDBById function from utils/functions.mjs
+        const userAddInDB = await addInDBById(data, registering.data.user.uid, "users")
+        if (userAddInDB.status) {
+            alert(userAddInDB.message)
+            alert(registering.message)
+            window.location.href = "./home/index.html"
+        } else {
+            alert(userAddInDB.message)
+        }
+    } else {
+        alert(registering.message)
+    }
+}
+signupSubmitBtn.addEventListener('click', signupHandler)
