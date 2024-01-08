@@ -1,10 +1,11 @@
 // Importing necessary modules from utilities/app.js
 import {
   signUp,
-  addInDBById
-} from "../utilites/functions.mjs"; 
+  addInDBById,
+  uploadFile
+  
+} from "./utilites/functions.mjs"; 
 
-import { auth, onAuthStateChanged } from "./utilites/app.js";
 
 // Selecting form elements
 const name = document.getElementById('Name');
@@ -12,6 +13,7 @@ const userName = document.getElementById('userName');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const cPassword = document.getElementById('cPassword');
+const profilePicture = document.getElementById('profilePicture');
 const signupSubmitBtn = document.getElementById("signupSubmitBtn");
 
 
