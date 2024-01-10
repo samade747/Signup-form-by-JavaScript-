@@ -6,6 +6,8 @@ const submitBtn = document.querySelector("#submitBtn");
 const imageBtn = document.querySelector("#imageBtn");
 const logoutBtn = document.querySelector("#logoutBtn");
 const ppimage = document.querySelectorAll('.ppimage')
+const profilePicture = document.getElementById('profilePicture');
+const profilePicture2 = document.getElementById('profilePicture2');
 console.log(ppimage)
 
 let uid;
