@@ -112,6 +112,7 @@ const renderPosts = (posts) => {
         <p class="card-text">${post.post}</p>
         ${post.imageUrl && `<img src="${post.imageUrl}" class="card-img-top" alt="...">`}
         <a href="#" class="btn btn-primary">Go somewhere</a>
+        ${post.authorId === uid && `<button class="btn btn-danger delete-btn" data-id="${post.id}">Delete</button>`}
     </div>
     <div class="card-footer text-body-secondary">
         ${post.userData.email}
@@ -173,7 +174,24 @@ const logoutbtnHanlder = async () =>{
 
 
 
+const deletePostHandler = async (postId) => {
+  // Check if the user is the author of the post
+  const post = await getData(postId, "posts");
+  if (post.data.authorId !== uid) {
+    console.log("User is not the author of the post");
+    return;
+  }
 
+  // Delete the post
+  const deleteStatus = await deleteFromDB(postId, "posts");
+  if (deleteStatus.status) {
+    console.log("Post deleted successfully");
+    // Refresh the posts
+    postDisplayHandler();
+  } else {
+    console.log("Failed to delete post");
+  }
+};
 
 
 
@@ -186,6 +204,13 @@ const logoutbtnHanlder = async () =>{
 logoutBtn.addEventListener('click', logoutbtnHanlder);
 submitBtn.addEventListener('click', postSubmitHandler);
 
+document.querySelectorAll('.delete-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    deletePostHandler(e.target.dataset.id);
+  });
+});
+}
 
 
 // // Event listeners
