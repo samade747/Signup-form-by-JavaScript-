@@ -175,8 +175,16 @@ const logoutbtnHanlder = async () =>{
 
 
 const deletePostHandler = async (postId) => {
-  // Check if the user is the author of the post
+  // Fetch the post data
   const post = await getData(postId, "posts");
+
+  // Check if the post data was fetched successfully
+  if (!post || !post.data) {
+    console.log(`Failed to fetch post with ID: ${postId}`);
+    return;
+  }
+
+  // Check if the logged-in user is the author of the post
   if (post.data.authorId !== uid) {
     console.log("User is not the author of the post");
     return;
@@ -204,13 +212,19 @@ const deletePostHandler = async (postId) => {
 logoutBtn.addEventListener('click', logoutbtnHanlder);
 submitBtn.addEventListener('click', postSubmitHandler);
 
-document.querySelectorAll('.delete-btn').forEach(btn => {
-  btn.addEventListener('click', (e) => {
+postContentArea.addEventListener('click', (e) => {
+  if (e.target.classList.contains('delete-btn')) {
     e.preventDefault();
-    deletePostHandler(e.target.dataset.id);
-  });
+    const postId = e.target.dataset.id;
+    console.log('Post ID:', postId);  // Log the postId to the console
+    if (!postId) {
+      console.log('Failed to get post ID');
+      return;
+    }
+    deletePostHandler(postId);
+  }
 });
-}
+
 
 
 // // Event listeners
