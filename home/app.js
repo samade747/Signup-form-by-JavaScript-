@@ -102,6 +102,7 @@ const renderPosts = (posts) => {
   console.log("===>>> render posts", posts)
   postContentArea.innerHTML = ""
   posts.forEach(post => {
+    console.log(post);
     postContentArea.innerHTML += `
     <div class="card text-center">
     <div class="card-header" id="userName">
@@ -112,7 +113,7 @@ const renderPosts = (posts) => {
         <p class="card-text">${post.post}</p>
         ${post.imageUrl && `<img src="${post.imageUrl}" class="card-img-top" alt="...">`}
         <a href="#" class="btn btn-primary">Go somewhere</a>
-        ${post.authorId === uid && `<button class="btn btn-danger delete-btn" data-id="${post.id}">Delete</button>`}
+        ${post.authorId === uid && post.id ? `<button class="btn btn-danger delete-btn" data-id="${post.id}">Delete</button>` : ''}
     </div>
     <div class="card-footer text-body-secondary">
         ${post.userData.email}
@@ -132,7 +133,11 @@ const postSubmitHandler = async () => {
     return
   }
 
+  // creating a post unique id 
+  const postId = `${uid}.${Date.now()}`;
+
   const data = {
+    id: postId,
     post: postInput.value,
     authorId: uid,
   }
@@ -215,7 +220,7 @@ submitBtn.addEventListener('click', postSubmitHandler);
 postContentArea.addEventListener('click', (e) => {
   if (e.target.classList.contains('delete-btn')) {
     e.preventDefault();
-    const postId = e.target.dataset.id;
+    const postId = e.target.getAttribute('data-id'); // Use getAttribute to ensure you get the data-id value
     console.log('Post ID:', postId);  // Log the postId to the console
     if (!postId) {
       console.log('Failed to get post ID');
@@ -224,8 +229,6 @@ postContentArea.addEventListener('click', (e) => {
     deletePostHandler(postId);
   }
 });
-
-
 
 // // Event listeners
 // logoutBtn.addEventListener("click", logoutHandler);
