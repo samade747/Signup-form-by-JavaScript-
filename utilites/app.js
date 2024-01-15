@@ -9,6 +9,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getFirestore,
+  addInDB,
   collection,
   addDoc,
   setDoc,
@@ -68,5 +69,6 @@ export {
   getDownloadURL,
   uploadBytes,
   serverTimestamp,
-  orderBy
+  orderBy,
+  addInDB
 };

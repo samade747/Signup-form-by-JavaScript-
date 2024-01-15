@@ -127,45 +127,93 @@ const renderPosts = (posts) => {
 let imageUrl;
 
 const postSubmitHandler = async () => {
-  postContentArea.innerHTML = "Loading"
-  console.log("===>>> post submit handler")
-  if (!postInput.value) {
-    alert("Please enter post")
-    return
-  }
+  try {
+    console.log("===>>> post submit handler");
 
-  // creating a post unique id 
-  // const postId = `${uid}.${Date.now()}`;
-
-  const data = {
-    // id: postId,
-    post: postInput.value,
-    authorId: uid,
-  }
-
-  // upload image to storage
-  if (imageInput.files[0]) {
-    const imageName = `${new Date().getTime()}-${imageInput.files[0].name}`
-    const upload = await uploadFile(imageInput.files[0], imageName)
-    if (upload.status) {
-      data.imageUrl = upload.downloadURL
-      alert(upload.message)
-    } else {
-      alert(upload.message)
+    if (!postInput.value) {
+      alert("Please enter a post");
+      return;
     }
+
+    // Ensure imageInput is defined
+    const imageInput = document.getElementById('imageInput');
+
+    const data = {
+      post: postInput.value,
+      authorId: uid,
+    };
+
+    // Upload image to storage
+    if (imageInput && imageInput.files[0]) {
+      const imageName = `${new Date().getTime()}-${imageInput.files[0].name}`;
+      const upload = await uploadFile(imageInput.files[0], imageName);
+
+      if (upload.status) {
+        data.imageUrl = upload.downloadURL;
+        alert(upload.message);
+      } else {
+        alert(upload.message);
+      }
+    }
+
+    const postAddInDB = await addInDBById(data, "posts");
+
+    if (postAddInDB.status && postAddInDB.id) {
+      // Use the auto-generated ID from the response
+      const postId = postAddInDB.id;
+      console.log("Newly added post ID:", postId);
+      // ... rest of your code ...
+    } else {
+      alert(postAddInDB.message);
+    }
+  } catch (error) {
+    console.error("Error in postSubmitHandler:", error);
+    // Add more specific error handling as needed
+    alert("An error occurred while submitting the post.");
   }
-
-  const postAddInDB = await addInDBById(data, "posts")
-  if (postAddInDB.status && postAddInDB.id) {
-    // Use the auto-generated ID from the response
-    const postId = postAddInDB.id;
-    console.log("Newly added post ID:", postId);
-    // ... rest of your code ...
-  } else {
-    alert(postAddInDB.message);
-  }
+};
 
 
+// const postSubmitHandler = async () => {
+//   postContentArea.innerHTML = "Loading"
+//   console.log("===>>> post submit handler")
+//   if (!postInput.value) {
+//     alert("Please enter post")
+//     return
+//   }
+
+//   // creating a post unique id 
+//   // const postId = `${uid}.${Date.now()}`;
+
+//   const data = {
+//     // id: postId,
+//     post: postInput.value,
+//     authorId: uid,
+//   }
+
+//   // upload image to storage
+//   if (imageInput.files[0]) {
+//     const imageName = `${new Date().getTime()}-${imageInput.files[0].name}`
+//     const upload = await uploadFile(imageInput.files[0], imageName)
+//     if (upload.status) {
+//       data.imageUrl = upload.downloadURL
+//       alert(upload.message)
+//     } else {
+//       alert(upload.message)
+//     }
+//   }
+
+//   const postAddInDB = await addInDBById(data, "posts")
+//   if (postAddInDB.status || postAddInDB.id) {
+//     // Use the auto-generated ID from the response
+//     const postId = postAddInDB.id;
+//     console.log("Newly added post ID:", postId);
+//     // ... rest of your code ...
+//   } else {
+//     alert(postAddInDB.message);
+//   }
+
+// }
 //   const postAddInDB = await addInDB(data, "posts")
 //   if (postAddInDB.status) {
 //     alert(postAddInDB.message)
@@ -191,10 +239,7 @@ const logoutbtnHanlder = async () =>{
 
 
 const deletePostHandler = async (postId) => {
-  if (!postId) {
-    console.log("Post ID is undefined or empty.");
-    return;
-  }
+  
 
   // Fetch the post data
   const post = await getData(postId, "posts");
@@ -237,6 +282,7 @@ postContentArea.addEventListener('click', (e) => {
   if (e.target.classList.contains('delete-btn')) {
     e.preventDefault();
     const postId = e.target.getAttribute('data-id');
+    console.log('Clicked post ID:', postId); // Log the postId when the delete button is clicked
     if (postId) {
       deletePostHandler(postId);
     } else {
@@ -244,7 +290,8 @@ postContentArea.addEventListener('click', (e) => {
     }
   }
 });
-}
+
+
 // // Event listeners
 // logoutBtn.addEventListener("click", logoutHandler);
 // imageBtn.addEventListener("click", imageOpenerHandler);
