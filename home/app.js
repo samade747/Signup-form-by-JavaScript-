@@ -13,54 +13,25 @@ console.log(ppimage)
 let uid;
 
 const checkLogin = async () => {
-  console.log("===>>> checking login user");
-
-  // Get the logged-in user
-  const loggedInUser = await getLoggedInUser();
-
-  // Check if the user is logged in
-  if (loggedInUser && loggedInUser.uid) {
-    uid = loggedInUser.uid;
-    console.log("===>>> user logged in", loggedInUser);
+  console.log("===>>> checking login user")
+  const loggedInUser = await getLoggedInUser()
+  uid = loggedInUser.uid
+  if (loggedInUser) {
+    console.log("===>>> user logged in", loggedInUser)
 
     // get user data from db
-    const userData = await getData(loggedInUser.uid, "users");
+    const userData = await getData(loggedInUser.uid, "users")
     if (userData.status) {
-      console.log("===>>> user data", userData.data);
-      profilePicture.src =
-        userData.data.profilePicture ||
-        "https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg";
+      console.log("===>>> user data", userData.data)
+      profilePicture.src = userData.data.profilePicture || "https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
     } else {
-      console.log("===>>> user data not found");
+      console.log("===>>> user data not found")
     }
   } else {
-    console.log("===>>> user not logged in");
-    window.location.href = "../index.html";
+    console.log("===>>> user not logged in")
+    window.location.href = "../index.html"
   }
-};
-
-
-
-// const checkLogin = async () => {
-//   console.log("===>>> checking login user")
-//   const loggedInUser = await getLoggedInUser()
-//   uid = loggedInUser.uid
-//   if (loggedInUser) {
-//     console.log("===>>> user logged in", loggedInUser)
-
-//     // get user data from db
-//     const userData = await getData(loggedInUser.uid, "users")
-//     if (userData.status) {
-//       console.log("===>>> user data", userData.data)
-//       profilePicture.src = userData.data.profilePicture || "https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
-//     } else {
-//       console.log("===>>> user data not found")
-//     }
-//   } else {
-//     console.log("===>>> user not logged in")
-//     window.location.href = "../index.html"
-//   }
-// }
+}
 
 checkLogin()
 
@@ -102,8 +73,6 @@ const renderPosts = (posts) => {
   console.log("===>>> render posts", posts)
   postContentArea.innerHTML = ""
   posts.forEach(post => {
-    console.log(post);
-    console.log("Post ID:", post.id);
     postContentArea.innerHTML += `
     <div class="card text-center">
     <div class="card-header" id="userName">
@@ -114,7 +83,6 @@ const renderPosts = (posts) => {
         <p class="card-text">${post.post}</p>
         ${post.imageUrl && `<img src="${post.imageUrl}" class="card-img-top" alt="...">`}
         <a href="#" class="btn btn-primary">Go somewhere</a>
-        ${post.authorId === uid && post.id ? `<button class="btn btn-danger delete-btn" data-id="${post.id}">Delete</button>` : ''}
     </div>
     <div class="card-footer text-body-secondary">
         ${post.userData.email}
@@ -126,56 +94,6 @@ const renderPosts = (posts) => {
 
 let imageUrl;
 
-// const postSubmitHandler = async () => {
-//   try {
-//     console.log("===>>> post submit handler");
-
-//     if (!postInput.value) {
-//       alert("Please enter a post");
-//       return;
-//     }
-
-//     // Ensure imageInput is defined
-//     const imageInput = document.getElementById('imageInput');
-
-//     const data = {
-//       post: postInput.value,
-//       authorId: uid,
-//     };
-
-//     // Upload image to storage
-//     if (imageInput && imageInput.files[0]) {
-//       const imageName = `${new Date().getTime()}-${imageInput.files[0].name}`;
-//       const upload = await uploadFile(imageInput.files[0], imageName);
-
-//       if (upload.status) {
-//         data.imageUrl = upload.downloadURL;
-//         alert(upload.message);
-//       } else {
-//         alert(upload.message);
-//       }
-//     }
-
-//     const postAddInDB = await addInDBById(data, "posts");
-
-
-
-//     if (postAddInDB.status && postAddInDB.id) {
-//       // Use the auto-generated ID from the response
-//       const postId = postAddInDB.id;
-//       console.log("Newly added post ID:", postId);
-//       // ... rest of your code ...
-//     } else {
-//       alert(postAddInDB.message);
-//     }
-//   } catch (error) {
-//     console.error("Error in postSubmitHandler:", error);
-//     // Add more specific error handling as needed
-//     alert("An error occurred while submitting the post.");
-//   }
-// };
-
-
 const postSubmitHandler = async () => {
   postContentArea.innerHTML = "Loading"
   console.log("===>>> post submit handler")
@@ -184,11 +102,7 @@ const postSubmitHandler = async () => {
     return
   }
 
-  // creating a post unique id 
-  // const postId = `${uid}.${Date.now()}`;
-
   const data = {
-    // id: postId,
     post: postInput.value,
     authorId: uid,
   }
@@ -205,15 +119,7 @@ const postSubmitHandler = async () => {
     }
   }
 
-  // const postAddInDB = await addInDBById(data, "posts")
-  // if (postAddInDB.status || postAddInDB.id) {
-  //   // Use the auto-generated ID from the response
-  //   const postId = postAddInDB.id;
-  //   console.log("Newly added post ID:", postId);
-  //   // ... rest of your code ...
-  // } else {
-  //   alert(postAddInDB.message);
-  // }
+
   const postAddInDB = await addInDB(data, "posts")
   if (postAddInDB.status) {
     alert(postAddInDB.message)
@@ -225,52 +131,268 @@ const postSubmitHandler = async () => {
   }
 
 }
+
+submitBtn.addEventListener('click', postSubmitHandler)
+
+
+
+// const checkLogin = async () => {
+//   console.log("===>>> checking login user");
+
+//   // Get the logged-in user
+//   const loggedInUser = await getLoggedInUser();
+
+//   // Check if the user is logged in
+//   if (loggedInUser && loggedInUser.uid) {
+//     uid = loggedInUser.uid;
+//     console.log("===>>> user logged in", loggedInUser);
+
+//     // get user data from db
+//     const userData = await getData(loggedInUser.uid, "users");
+//     if (userData.status) {
+//       console.log("===>>> user data", userData.data);
+//       profilePicture.src =
+//         userData.data.profilePicture ||
+//         "https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg";
+//     } else {
+//       console.log("===>>> user data not found");
+//     }
+//   } else {
+//     console.log("===>>> user not logged in");
+//     window.location.href = "../index.html";
+//   }
+// };
+
+
+
+// // const checkLogin = async () => {
+// //   console.log("===>>> checking login user")
+// //   const loggedInUser = await getLoggedInUser()
+// //   uid = loggedInUser.uid
+// //   if (loggedInUser) {
+// //     console.log("===>>> user logged in", loggedInUser)
+
+// //     // get user data from db
+// //     const userData = await getData(loggedInUser.uid, "users")
+// //     if (userData.status) {
+// //       console.log("===>>> user data", userData.data)
+// //       profilePicture.src = userData.data.profilePicture || "https://t3.ftcdn.net/jpg/05/00/54/28/360_F_500542898_LpYSy4RGAi95aDim3TLtSgCNUxNlOlcM.jpg"
+// //     } else {
+// //       console.log("===>>> user data not found")
+// //     }
+// //   } else {
+// //     console.log("===>>> user not logged in")
+// //     window.location.href = "../index.html"
+// //   }
+// // }
+
+// checkLogin()
+
+// const postDisplayHandler = async () => {
+//   console.log("===>>> post display handler")
+//   const posts = await getAllDataOrderedByTimestamp("posts")
+//   console.log("===>>> posts", posts)
+//   if (posts.status) {
+
+//     // Use Promise.all to await all promises in the loop
+//     const postsWithDataPromises = posts.data.map(async (post) => {
+//       const userData = await getData(post.authorId, "users");
+
+//       console.log(userData, "===>>userData")
+
+//       // Add user data to the post
+//       const postWithUserData = {
+//         ...post,
+//         userData: userData ? userData.data : null,
+//       };
+
+//       return postWithUserData;
+//     });
+
+//     // Wait for all promises to resolve
+//     const postsWithData = await Promise.all(postsWithDataPromises);
+
+//     console.log("===>>> posts with data", postsWithData)
+
+//     renderPosts(postsWithData)
+//   } else {
+//     console.log("===>>> posts not found")
+//   }
+// }
+
+// postDisplayHandler()
+
+// const renderPosts = (posts) => {
+//   console.log("===>>> render posts", posts)
+//   postContentArea.innerHTML = ""
+//   posts.forEach(post => {
+//     console.log(post);
+//     console.log("Post ID:", post.id);
+//     postContentArea.innerHTML += `
+//     <div class="card text-center">
+//     <div class="card-header" id="userName">
+//         ${post.userData.userName || "No User Name"}
+//     </div>
+//     <div class="card-body">
+//         <h5 class="card-title">Heading</h5>
+//         <p class="card-text">${post.post}</p>
+//         ${post.imageUrl && `<img src="${post.imageUrl}" class="card-img-top" alt="...">`}
+//         <a href="#" class="btn btn-primary">Go somewhere</a>
+//         ${post.authorId === uid && post.id ? `<button class="btn btn-danger delete-btn" data-id="${post.id}">Delete</button>` : ''}
+//     </div>
+//     <div class="card-footer text-body-secondary">
+//         ${post.userData.email}
+//     </div>
+// </div>
+//     `
+//   });
+// }
+
+// let imageUrl;
+
+// // const postSubmitHandler = async () => {
+// //   try {
+// //     console.log("===>>> post submit handler");
+
+// //     if (!postInput.value) {
+// //       alert("Please enter a post");
+// //       return;
+// //     }
+
+// //     // Ensure imageInput is defined
+// //     const imageInput = document.getElementById('imageInput');
+
+// //     const data = {
+// //       post: postInput.value,
+// //       authorId: uid,
+// //     };
+
+// //     // Upload image to storage
+// //     if (imageInput && imageInput.files[0]) {
+// //       const imageName = `${new Date().getTime()}-${imageInput.files[0].name}`;
+// //       const upload = await uploadFile(imageInput.files[0], imageName);
+
+// //       if (upload.status) {
+// //         data.imageUrl = upload.downloadURL;
+// //         alert(upload.message);
+// //       } else {
+// //         alert(upload.message);
+// //       }
+// //     }
+
+// //     const postAddInDB = await addInDBById(data, "posts");
+
+
+
+// //     if (postAddInDB.status && postAddInDB.id) {
+// //       // Use the auto-generated ID from the response
+// //       const postId = postAddInDB.id;
+// //       console.log("Newly added post ID:", postId);
+// //       // ... rest of your code ...
+// //     } else {
+// //       alert(postAddInDB.message);
+// //     }
+// //   } catch (error) {
+// //     console.error("Error in postSubmitHandler:", error);
+// //     // Add more specific error handling as needed
+// //     alert("An error occurred while submitting the post.");
+// //   }
+// // };
+
+
+// const postSubmitHandler = async () => {
+//   postContentArea.innerHTML = "Loading"
+//   console.log("===>>> post submit handler")
+//   if (!postInput.value) {
+//     alert("Please enter post")
+//     return
+//   }
+
+//   // creating a post unique id 
+//   // const postId = `${uid}.${Date.now()}`;
+
+//   const data = {
+//     // id: postId,
+//     post: postInput.value,
+//     authorId: uid,
+//   }
+
+//   // upload image to storage
+//   if (imageInput.files[0]) {
+//     const imageName = `${new Date().getTime()}-${imageInput.files[0].name}`
+//     const upload = await uploadFile(imageInput.files[0], imageName)
+//     if (upload.status) {
+//       data.imageUrl = upload.downloadURL
+//       alert(upload.message)
+//     } else {
+//       alert(upload.message)
+//     }
+//   }
+
+//   // const postAddInDB = await addInDBById(data, "posts")
+//   // if (postAddInDB.status || postAddInDB.id) {
+//   //   // Use the auto-generated ID from the response
+//   //   const postId = postAddInDB.id;
+//   //   console.log("Newly added post ID:", postId);
+//   //   // ... rest of your code ...
+//   // } else {
+//   //   alert(postAddInDB.message);
+//   // }
+//   const postAddInDB = await addInDB(data, "posts")
+//   if (postAddInDB.status) {
+//     alert(postAddInDB.message)
+//     postInput.value = ""
+//     imageInput.value = ""
+//     postDisplayHandler()
+//   } else {
+//     alert(postAddInDB.message)
+//   }
+
+// }
   
 
 
 
-const logoutbtnHanlder = async () =>{
+// const logoutbtnHanlder = async () =>{
 
-  const logoutStatus = await logout()
-  if(logoutStatus.status){
-    window.location.href = '../index.html'
-  } else {
-    console.log('login failed please try again')
-  }
-}
+//   const logoutStatus = await logout()
+//   if(logoutStatus.status){
+//     window.location.href = '../index.html'
+//   } else {
+//     console.log('login failed please try again')
+//   }
+// }
 
 
 
-const deletePostHandler = async (postId) => {
+// const deletePostHandler = async (postId) => {
   
 
-  // Fetch the post data
-  const post = await getData(postId, "posts");
+//   // Fetch the post data
+//   const post = await getData(postId, "posts");
 
-  // Check if the post data was fetched successfully
-  if (!post || !post.data) {
-    console.log(`Failed to fetch post with ID: ${postId}`);
-    return;
-  }
+//   // Check if the post data was fetched successfully
+//   if (!post || !post.data) {
+//     console.log(`Failed to fetch post with ID: ${postId}`);
+//     return;
+//   }
 
-  // Check if the logged-in user is the author of the post
-  if (post.data.authorId !== uid) {
-    console.log("User is not the author of the post");
-    return;
-  }
+//   // Check if the logged-in user is the author of the post
+//   if (post.data.authorId !== uid) {
+//     console.log("User is not the author of the post");
+//     return;
+//   }
 
-  // Delete the post
-  const deleteStatus = await deleteFromDB(postId, "posts");
-  if (deleteStatus.status) {
-    console.log("Post deleted successfully");
-    // Refresh the posts
-    postDisplayHandler();
-  } else {
-    console.log("Failed to delete post");
-  }
-};
-
-
+//   // Delete the post
+//   const deleteStatus = await deleteFromDB(postId, "posts");
+//   if (deleteStatus.status) {
+//     console.log("Post deleted successfully");
+//     // Refresh the posts
+//     postDisplayHandler();
+//   } else {
+//     console.log("Failed to delete post");
+//   }
+// };
 
 
 
@@ -278,23 +400,25 @@ const deletePostHandler = async (postId) => {
 
 
 
-logoutBtn.addEventListener('click', logoutbtnHanlder);
-submitBtn.addEventListener('click', postSubmitHandler);
-
-postContentArea.addEventListener('click', (e) => {
-  if (e.target.classList.contains('delete-btn')) {
-    e.preventDefault();
-    const postId = e.target.getAttribute('data-id');
-    console.log('Clicked post ID:', postId); // Log the postId when the delete button is clicked
-    if (postId) {
-      deletePostHandler(postId);
-    } else {
-      console.log('Post ID is undefined or empty.');
-    }
-  }
-});
 
 
-// // Event listeners
-// logoutBtn.addEventListener("click", logoutHandler);
-// imageBtn.addEventListener("click", imageOpenerHandler);
+// logoutBtn.addEventListener('click', logoutbtnHanlder);
+// submitBtn.addEventListener('click', postSubmitHandler);
+
+// postContentArea.addEventListener('click', (e) => {
+//   if (e.target.classList.contains('delete-btn')) {
+//     e.preventDefault();
+//     const postId = e.target.getAttribute('data-id');
+//     console.log('Clicked post ID:', postId); // Log the postId when the delete button is clicked
+//     if (postId) {
+//       deletePostHandler(postId);
+//     } else {
+//       console.log('Post ID is undefined or empty.');
+//     }
+//   }
+// });
+
+
+// // // Event listeners
+// // logoutBtn.addEventListener("click", logoutHandler);
+// // imageBtn.addEventListener("click", imageOpenerHandler);
