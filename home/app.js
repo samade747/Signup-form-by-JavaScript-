@@ -134,10 +134,10 @@ const postSubmitHandler = async () => {
   }
 
   // creating a post unique id 
-  const postId = `${uid}.${Date.now()}`;
+  // const postId = `${uid}.${Date.now()}`;
 
   const data = {
-    id: postId,
+    // id: postId,
     post: postInput.value,
     authorId: uid,
   }
