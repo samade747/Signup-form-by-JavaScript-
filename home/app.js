@@ -244,7 +244,7 @@ postContentArea.addEventListener('click', (e) => {
     }
   }
 });
-
+}
 // // Event listeners
 // logoutBtn.addEventListener("click", logoutHandler);
 // imageBtn.addEventListener("click", imageOpenerHandler);
