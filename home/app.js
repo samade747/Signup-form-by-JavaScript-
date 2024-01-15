@@ -103,6 +103,7 @@ const renderPosts = (posts) => {
   postContentArea.innerHTML = ""
   posts.forEach(post => {
     console.log(post);
+    console.log("Post ID:", post.id);
     postContentArea.innerHTML += `
     <div class="card text-center">
     <div class="card-header" id="userName">
@@ -154,17 +155,15 @@ const postSubmitHandler = async () => {
     }
   }
 
-  const postAddInDB = await addInDBById(data, id, "posts")
-  if (postAddInDB.status) {
-    alert(postAddInDB.message)
-    postInput.value = ""
-    imageInput.value = ""
-    postDisplayHandler()
+  const postAddInDB = await addInDBById(data, "posts")
+  if (postAddInDB.status && postAddInDB.id) {
+    // Use the auto-generated ID from the response
+    const postId = postAddInDB.id;
+    console.log("Newly added post ID:", postId);
+    // ... rest of your code ...
   } else {
-    alert(postAddInDB.message)
+    alert(postAddInDB.message);
   }
-
-}
 
 
 //   const postAddInDB = await addInDB(data, "posts")
@@ -192,6 +191,11 @@ const logoutbtnHanlder = async () =>{
 
 
 const deletePostHandler = async (postId) => {
+  if (!postId) {
+    console.log("Post ID is undefined or empty.");
+    return;
+  }
+
   // Fetch the post data
   const post = await getData(postId, "posts");
 
@@ -232,13 +236,12 @@ submitBtn.addEventListener('click', postSubmitHandler);
 postContentArea.addEventListener('click', (e) => {
   if (e.target.classList.contains('delete-btn')) {
     e.preventDefault();
-    const postId = e.target.getAttribute('data-id'); // Use getAttribute to ensure you get the data-id value
-    console.log('Post ID:', postId);  // Log the postId to the console
-    if (!postId) {
-      console.log('Failed to get post ID');
-      return;
+    const postId = e.target.getAttribute('data-id');
+    if (postId) {
+      deletePostHandler(postId);
+    } else {
+      console.log('Post ID is undefined or empty.');
     }
-    deletePostHandler(postId);
   }
 });
 
