@@ -1,4 +1,4 @@
-import { auth, createUserWithEmailAndPassword, db, doc, getDoc, setDoc, signInWithEmailAndPassword, ref, storage, getDownloadURL, uploadBytes, signOut, getDocs, query, collection, serverTimestamp, addDoc, orderBy } from "./app.js"
+import { auth, createUserWithEmailAndPassword, db, doc, getDoc, setDoc, signInWithEmailAndPassword, ref, storage, getDownloadURL, uploadBytes, signOut, getDocs, query, collection, serverTimestamp, addDoc, orderBy, addInDB } from "./app.js"
 
 
 // created signup function through firebase auth
