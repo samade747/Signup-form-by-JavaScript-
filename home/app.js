@@ -1,4 +1,4 @@
-import { addInDB, getAllDataOrderedByTimestamp, getData, getLoggedInUser, uploadFile, logout } from "../utilites/functions.mjs";
+import { addInDB, getAllDataOrderedByTimestamp, getData, getLoggedInUser, uploadFile, logout, addInDBById } from "../utilites/functions.mjs";
 
 const postInput = document.querySelector("#postInput");
 const postContentArea = document.querySelector("#postContentArea");
@@ -154,8 +154,7 @@ const postSubmitHandler = async () => {
     }
   }
 
-
-  const postAddInDB = await addInDB(data, "posts")
+  const postAddInDB = await addInDBById(data, id, "posts")
   if (postAddInDB.status) {
     alert(postAddInDB.message)
     postInput.value = ""
@@ -166,6 +165,19 @@ const postSubmitHandler = async () => {
   }
 
 }
+
+
+//   const postAddInDB = await addInDB(data, "posts")
+//   if (postAddInDB.status) {
+//     alert(postAddInDB.message)
+//     postInput.value = ""
+//     imageInput.value = ""
+//     postDisplayHandler()
+//   } else {
+//     alert(postAddInDB.message)
+//   }
+
+// }
 
 const logoutbtnHanlder = async () =>{
 
