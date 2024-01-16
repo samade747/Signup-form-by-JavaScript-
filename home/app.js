@@ -44,7 +44,7 @@ const postDisplayHandler = async () => {
 
     // Use Promise.all to await all promises in the loop
     const postsWithDataPromises = posts.data.map(async (post) => {
-      const userData = await getData(post.authorId, "users");
+    const userData = await getData(post.authorId, "users");
 
       console.log(userData, "===>>userData")
 
@@ -123,12 +123,15 @@ const postSubmitHandler = async () => {
 
   const postAddInDB = await addInDB(data, "posts")
   if (postAddInDB.status) {
-    alert(postAddInDB.message)
+    console.log(postAddInDB)
+    // Access the documentId
+    const documentId = postAddInDB.documentId;
+    alert(`Post added successfully with ID: ${documentId}`);
     postInput.value = ""
     imageInput.value = ""
     postDisplayHandler()
   } else {
-    alert(postAddInDB.message)
+    alert(postAddInDB.message);
   }
 
 }
