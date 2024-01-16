@@ -74,6 +74,7 @@ const renderPosts = (posts) => {
   console.log("===>>> render posts", posts)
   postContentArea.innerHTML = ""
   posts.forEach(post => {
+    const isCurrentUserPost = post.authorId === uid;
     postContentArea.innerHTML += `
     <div class="card text-center">
     <div class="card-header" id="userName">
@@ -83,6 +84,7 @@ const renderPosts = (posts) => {
         <h5 class="card-title">Heading</h5>
         <p class="card-text">${post.post}</p>
         ${post.imageUrl && `<img src="${post.imageUrl}" class="card-img-top" alt="...">`}
+        ${isCurrentUserPost ? `<button class="btn btn-danger delete-btn" data-postid="${post.id}">Delete</button>` : ''}
         <a href="#" class="btn btn-primary">Go somewhere</a>
     </div>
     <div class="card-footer text-body-secondary">
@@ -125,8 +127,10 @@ const postSubmitHandler = async () => {
   if (postAddInDB.status) {
     console.log(postAddInDB)
     // Access the documentId
-    const documentId = data.DocumentKey.segments[1];
+    const documentId = postAddInDB.data.id;
+    console.log(documentId)
     alert(`Post added successfully with ID: ${documentId}`);
+    const documentReference = postAddInDB.data;
     postInput.value = ""
     imageInput.value = ""
     postDisplayHandler()
@@ -136,4 +140,24 @@ const postSubmitHandler = async () => {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 submitBtn.addEventListener('click', postSubmitHandler)
+
+document.querySelectorAll('.delete-btn').forEach((deleteBtn) => {
+  deleteBtn.addEventListener('click', deletePostHandler);
+});
+};
