@@ -125,7 +125,7 @@ const postSubmitHandler = async () => {
   if (postAddInDB.status) {
     console.log(postAddInDB)
     // Access the documentId
-    const documentId = postAddInDB.documentId;
+    const documentId = data.DocumentKey.segments[1];
     alert(`Post added successfully with ID: ${documentId}`);
     postInput.value = ""
     imageInput.value = ""
