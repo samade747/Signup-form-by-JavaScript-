@@ -167,9 +167,10 @@ const postSubmitHandler = async () => {
   if (postAddInDB.status) {
     console.log(postAddInDB)
     // Access the documentId
-    const documentId = postAddInDB.data.id;
-    console.log(documentId)
-    alert(`Post added successfully with ID: ${documentId}`);
+    const postid = postAddInDB.data.id;
+    console.log(postid)
+    console.log(typeof(postid))
+    alert(`Post added successfully with ID: ${postid}`);
     const documentReference = postAddInDB.data;
     postInput.value = ""
     imageInput.value = ""
@@ -180,34 +181,17 @@ const postSubmitHandler = async () => {
 
 }
 
-const deletePost = async (postId) => {
-  try {
-    const postDocRef = doc(db, "posts", postId);
-    await deleteDoc(postDocRef);
-    return { status: true, message: "Post deleted successfully" };
-  } catch (error) {
-    console.error("Error deleting post:", error);
-    return { status: false, message: "Error deleting post" };
-  }
-};
-
-
 window.deletePostHandler = async (postId) => {
-  console.log("postId ==>>" + postId);
-
   try {
-    const confirmDelete = confirm("Are you sure you want to delete this post?");
+    console.log("postId ==>>", postId);
 
-    if (confirmDelete) {
-      const deleteResult = await deletePost(postId);
+    // Assuming 'postId' is a string
+    const postRef = doc(db, "posts", postId);
+    await deleteDoc(postRef);
 
-      if (deleteResult.status) {
-        alert("Post deleted successfully");
-        postDisplayHandler(); // Refresh posts after deletion
-      } else {
-        alert("Error deleting post");
-      }
-    }
+    console.log("Post deleted successfully");
+    // Optionally, you can reload the page or update the UI after deletion
+    // window.location.reload();
   } catch (error) {
     console.error("Error deleting post:", error);
     // Handle the error accordingly, e.g., show an alert
@@ -215,10 +199,119 @@ window.deletePostHandler = async (postId) => {
 };
 
 
+
+
+// window.deletePostHandler = async (postId) => {
+//   console.log("postId ==>>", postId);
+
+//   try {
+//     if (!postId) {
+//       console.error("postId is undefined or null");
+//       return;
+//     }
+
+//     let postIdValue;
+
+//     // Check if postId is an object with an 'id' property
+//     if (typeof postId === 'object' && postId.id) {
+//       postIdValue = postId.id;
+//     } else if (typeof postId === 'string') {
+//       postIdValue = postId;
+//     } else {
+//       console.error("Invalid postId format");
+//       return;
+//     }
+
+//     const postDocument = doc(db, "posts", postIdValue);
+//     await deleteDoc(postDocument);
+//     console.log("Post deleted successfully");
+
+//     // Optionally, you can update the UI without reloading the entire page
+//     // postDisplayHandler(); 
+//   } catch (error) {
+//     console.error("Error deleting post:", error);
+//     // Handle the error accordingly, e.g., show an alert
+//   }
+// };
+
+
+// window.deletePostHandler = async (postId) => {
+//   console.log("postId ==>>" + postId);
+
+//   try {
+//     // Assuming postId is an object and has a property like 'id'
+//     const postDocument = doc(db, "posts", postId.id);
+    
+//     // If postId is a string, you can directly pass it
+//     // const postDocument = doc(db, "posts", postId);
+
+//     await deleteDoc(postDocument);
+//     console.log("Post deleted successfully");
+
+//     // Optionally, you can update the UI without reloading the entire page
+//     // postDisplayHandler(); 
+//   } catch (error) {
+//     console.error("Error deleting post:", error);
+//     // Handle the error accordingly, e.g., show an alert
+//   }
+// };
+
+
+
+// const deletePost = async (postId) => {
+//   try {
+//     const postDocRef = doc(db, "posts", postId);
+//     await deleteDoc(postDocRef);
+//     return { status: true, message: "Post deleted successfully" };
+//   } catch (error) {
+//     console.error("Error deleting post:", error);
+//     return { status: false, message: "Error deleting post" };
+//   }
+// };
+
+// window.deletePostHandler = async (postId) => {
+//   console.log("postId ==>>" + postId);
+  
+//   try {
+//     await deleteDoc(doc(db, "posts", postId));
+//     console.log("Post deleted successfully");
+    
+//     // Optionally, you can update the UI without reloading the entire page
+//     // postDisplayHandler(); 
+//   } catch (error) {
+//     console.error("Error deleting post:", error);
+//     // Handle the error accordingly, e.g., show an alert
+//   }
+// };
+
+
+
+// window.deletePostHandler = async (postId) => {
+//   console.log("postId ==>>" + postId);
+
+//   try {
+//     const confirmDelete = confirm("Are you sure you want to delete this post?");
+
+//     if (confirmDelete) {
+//       const deleteResult = await deletePost(postId);
+
+//       if (deleteResult.status) {
+//         alert("Post deleted successfully");
+//         postDisplayHandler(); // Refresh posts after deletion
+//       } else {
+//         alert("Error deleting post");
+//       }
+//     }
+//   } catch (error) {
+//     console.error("Error deleting post:", error);
+//     // Handle the error accordingly, e.g., show an alert
+//   }
+// };
+
+
 document.addEventListener("DOMContentLoaded", () => {
   postDisplayHandler();
 });
-
 
 submitBtn.addEventListener('click', postSubmitHandler)
 
