@@ -91,13 +91,17 @@ const getAllDataOrderedByTimestamp = async (collectionName) => {
 
         // Getting data from db ordered by timestamp
         const querySnapshot = await getDocs(q);
-
+        const posts = [];
         if (!querySnapshot.empty) {
-            const data = querySnapshot.docs.map(doc => doc.data());
+            const data = querySnapshot.docs.map((doc) => {
+                // console.log(doc)
+                const singlepost = doc.data();
+                posts.push({ ...singlepost, id: doc.id })
+            })
             return {
                 status: true,
                 message: "Data found",
-                data: data
+                data: posts
             };
         } else {
             return {

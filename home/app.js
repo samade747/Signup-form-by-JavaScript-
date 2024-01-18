@@ -43,39 +43,13 @@ const postDisplayHandler = async () => {
   const posts = await getAllDataOrderedByTimestamp("posts")
   console.log("===>>> posts", posts)
   if (posts.status) {
-
+console.log(posts.data)
     // Use Promise.all to await all promises in the loop
-    const postsWithDataPromises = posts.data.map(async (post) => {
-    const userData = await getData(post.authorId, "users");
+    const postsWithDataPromises = posts.data.forEach( (post) => {
+      console.log(post, '==> single post')
 
-      console.log(userData, "===>>userData")
 
-      // Add user data to the post
-      const postWithUserData = {
-        ...post,
-        userData: userData ? userData.data : null,
-        userId: getUser.uid,
-        
-      };
-
-      return postWithUserData;
-    });
-
-    // Wait for all promises to resolve
-    const postsWithData = await Promise.all(postsWithDataPromises);
-
-    console.log("===>>> posts with data", postsWithData)
-
-    renderPosts(postsWithData)
-  } else {
-    console.log("===>>> posts not found")
-  }
-}
-
-postDisplayHandler()
-
-const renderPosts = (posts) => {
-  postContentArea.innerHTML = "";
+      postContentArea.innerHTML = "";
   posts.forEach((post) => {
     const isCurrentUserPost = post.authorId === uid;
     const postElement = document.createElement("div");
@@ -97,6 +71,58 @@ const renderPosts = (posts) => {
       </div>
     `;
     postContentArea.appendChild(postElement);
+      // console.log(postsWithDataPromises, '==> single post')
+    // const userData = await getData(post.authorId, "users");
+
+      // console.log(userData, "===>>userData")
+
+      // Add user data to the post
+      // const postWithUserData = {
+      //   ...post,
+      //   userData: userData ? userData.data : null,
+      //   userId: getUser.uid,
+        
+      // };
+
+      // return postWithUserData;
+    });
+
+    // Wait for all promises to resolve
+    const postsWithData = await Promise.all(postsWithDataPromises);
+
+    console.log("===>>> posts with data", postsWithData)
+
+    renderPosts(postsWithData)
+  // } else {
+  //   console.log("===>>> posts not found")
+  }
+}
+
+postDisplayHandler()
+
+const renderPosts = (posts) => {
+  // postContentArea.innerHTML = "";
+  // posts.forEach((post) => {
+  //   const isCurrentUserPost = post.authorId === uid;
+  //   const postElement = document.createElement("div");
+  //   postElement.setAttribute("class", "card text-center");
+  //   postElement.setAttribute("id", post.id); // Add post ID as a data attribute
+  //   postElement.innerHTML = `
+  //     <div class="card-header" id="userName">
+  //       ${post.userData?.userName || "No User Name"}
+  //     </div>
+  //     <div class="card-body">
+  //       <h5 class="card-title">Heading</h5>
+  //       <p class="card-text">${post.post}</p>
+  //       ${post.imageUrl && `<img src="${post.imageUrl}" class="card-img-top" alt="...">`}
+  //       ${isCurrentUserPost ? `<button class="btn btn-danger delete-btn" id="deletPost" onclick="console.log('${post.id}'); window.deletPostHandler('${post.id}')">Delete</button>
+  //       ` : ''}
+  //     </div>
+  //     <div class="card-footer text-body-secondary">
+  //       ${post.userData?.email || "No Email"}
+  //     </div>
+  //   `;
+  //   postContentArea.appendChild(postElement);
   });
 
   document.querySelectorAll(".delete-btn").forEach((deleteBtn) => {
@@ -143,10 +169,10 @@ const postSubmitHandler = async () => {
   if (postAddInDB.status) {
     console.log(postAddInDB)
     // Access the documentId
-    const postid = postAddInDB.data.id;
-    console.log(postid)
-    console.log(typeof(postid))
-    alert(`Post added successfully with ID: ${postid}`);
+    const documentId = postAddInDB.data.id;
+    console.log(documentId)
+    console.log(typeof(documentId))
+    alert(`Post added successfully with ID: ${documentId}`);
     const documentReference = postAddInDB.data;
     postInput.value = ""
     imageInput.value = ""
@@ -157,19 +183,23 @@ const postSubmitHandler = async () => {
 
 }
 
-const getAllDataOrderedByTimestamp = async (collection) => {
-  try {
-    const querySnapshot = await firestore.collection(collection).orderBy('timestamp', 'desc').get();
-    const posts = querySnapshot.docs.map(doc => ({
-      id: doc.id, // This is the document ID
-      ...doc.data(), // Other data from the document
-    }));
-    return { status: true, data: posts };
-  } catch (error) {
-    console.error('Error getting posts:', error);
-    return { status: false, message: 'Error getting posts' };
-  }
-};
+// const getAllDataOrderedByTimestamp = async (collection) => {
+//   try {
+//     const querySnapshot = await firestore.collection(collection).orderBy('timestamp', 'desc').get();
+//     const posts = querySnapshot.docs.map(doc => ({
+//       id: doc.id, // This is the document ID
+//       ...doc.data(), // Other data from the document
+//     }));
+//     return { status: true,
+//              data: posts 
+//             };
+//   } catch (error) {
+//     console.error('Error getting posts:', error);
+//     return { status: false,
+//              message: 'Error getting posts' 
+//             };
+//   }
+// };
 
 
 
