@@ -19,8 +19,7 @@ import {
   deleteDoc,
   serverTimestamp,
   orderBy,
-  where,
-  docRef
+  where    
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import {
   ref,
@@ -72,8 +71,8 @@ export {
   uploadBytes,
   serverTimestamp,
   orderBy,
-  where,
-  deletData
+  where
+    
 };
 
 

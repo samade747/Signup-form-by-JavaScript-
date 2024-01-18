@@ -87,7 +87,7 @@ const renderPosts = (posts) => {
         <h5 class="card-title">Heading</h5>
         <p class="card-text">${post.post}</p>
         ${post.imageUrl && `<img src="${post.imageUrl}" class="card-img-top" alt="...">`}
-        ${isCurrentUserPost ? `<button class="btn btn-danger delete-btn" id="deletPost" onclick="console.log('${post.id}'); deletPostHandler('${post.id}')">Delete</button>
+        ${isCurrentUserPost ? `<button class="btn btn-danger delete-btn" id="deletPost" onclick="console.log('${post.id}'); window.deletPostHandler('${post.id}')">Delete</button>
         ` : ''}
       </div>
       <div class="card-footer text-body-secondary">
@@ -168,8 +168,7 @@ window.deletPostHandler = async (postId) => {
 
 
 
-document.addEventListener("DOMContentLoaded", () => {
-  postDisplayHandler();
+document.addEventListener("DOMContentLoaded", () => {  postDisplayHandler();
 });
 
 submitBtn.addEventListener('click', postSubmitHandler)
