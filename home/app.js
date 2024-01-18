@@ -157,6 +157,23 @@ const postSubmitHandler = async () => {
 
 }
 
+const getAllDataOrderedByTimestamp = async (collection) => {
+  try {
+    const querySnapshot = await firestore.collection(collection).orderBy('timestamp', 'desc').get();
+    const posts = querySnapshot.docs.map(doc => ({
+      id: doc.id, // This is the document ID
+      ...doc.data(), // Other data from the document
+    }));
+    return { status: true, data: posts };
+  } catch (error) {
+    console.error('Error getting posts:', error);
+    return { status: false, message: 'Error getting posts' };
+  }
+};
+
+
+
+
 window.deletPostHandler = async (postId) => {
   const deletingPost = await deletData("posts", postId);
   if (deletingPost.status) {
