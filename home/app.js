@@ -54,6 +54,8 @@ const postDisplayHandler = async () => {
       const postWithUserData = {
         ...post,
         userData: userData ? userData.data : null,
+        userId: getUser.uid,
+        
       };
 
       return postWithUserData;
