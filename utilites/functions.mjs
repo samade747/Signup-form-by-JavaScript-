@@ -1,4 +1,4 @@
-import { auth, createUserWithEmailAndPassword, db, doc, getDoc, setDoc, signInWithEmailAndPassword, ref, storage, getDownloadURL, uploadBytes, signOut, getDocs, query, collection, serverTimestamp, addDoc, orderBy, } from "./app.js"
+import { auth, createUserWithEmailAndPassword, db, doc, getDoc, setDoc, signInWithEmailAndPassword, ref, storage, getDownloadURL, uploadBytes, signOut, getDocs, query, collection, serverTimestamp, addDoc, orderBy} from "./app.js"
 
 // created signup function through firebase auth
 const signUp = async (email, password) => {
@@ -212,5 +212,17 @@ const uploadFile = async (file, fileName) => {
     }
 };
 
+// delete post data function
+const deletData = async (collection, documentId) => {
+    try {
+      const docRef = firestore.collection(collection).doc(documentId);
+      await docRef.delete();
+      return { status: true, message: 'Post deleted successfully' };
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      return { status: false, message: 'Error deleting post' };
+    }
+  };
 
-export { signUp, login, addInDBById, getLoggedInUser, getData, updateData, uploadFile, getAllDataOrderedByTimestamp, logout, addInDB,  }
+
+export { signUp, login, addInDBById, getLoggedInUser, getData, updateData, uploadFile, getAllDataOrderedByTimestamp, logout, addInDB, deletData }
