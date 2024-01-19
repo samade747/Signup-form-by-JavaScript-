@@ -221,7 +221,9 @@ const uploadFile = async (file, fileName) => {
 const deletData = async (collection, documentId) => {
     try {
       const docRef = doc(db, collection, documentId);
+      console.log(docRef)
       await deleteDoc(docRef);
+      console.log(deleteDoc)
       return { status: true, message: 'Post deleted successfully' };
     } catch (error) {
       console.error('Error deleting post:', error);

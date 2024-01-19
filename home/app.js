@@ -186,6 +186,7 @@ const postSubmitHandler = async () => {
 
 window.deletPostHandler = async (postId) => {
   const deletingPost = await deletData("posts", postId);
+  console.log(deletingPost)
   if (deletingPost.status) {
     alert(deletingPost.message);
     postDisplayHandler()
